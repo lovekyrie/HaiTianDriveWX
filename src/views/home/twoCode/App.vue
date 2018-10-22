@@ -1,69 +1,69 @@
 <style lang="less">
-    html {
-        height: 100%;
-        width: 100%;
-    }
+html {
+  height: 100%;
+  width: 100%;
+}
 
-    body {
-        width: 100%;
-        height: 100%;
-        background-color: #2e3132;
-    }
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #2e3132;
+}
 
-    #container {
-        width: 100%;
-        height: 100%;
-        margin: 0 auto;
-    }
+#container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
 
-    .c-img {
-        width: 5.1rem;
-        height: 5.3rem;
-        margin: 0 auto;
-        border-radius: 5px;
-        background-color: #fff;
-        text-align: center;
-        h2 {
-            font-size: .34rem;
-            margin-top: 1.2rem;
-            line-height: 1;
-            color: #333;
-            padding-top: .5rem;
-        }
-        img {
-            margin: .45rem 0;
-            width: 2.7rem;
-            height: 2.7rem;
-            vertical-align: middle;
-        }
-        p {
-            line-height: 1;
-            font-size: .24rem;
-            color: #999;
-        }
-    }
+.c-img {
+  width: 5.1rem;
+  height: 5.3rem;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: center;
+  h2 {
+    font-size: 0.34rem;
+    margin-top: 1.2rem;
+    line-height: 1;
+    color: #333;
+    padding-top: 0.5rem;
+  }
+  img {
+    margin: 0.45rem 0;
+    width: 2.7rem;
+    height: 2.7rem;
+    vertical-align: middle;
+  }
+  p {
+    line-height: 1;
+    font-size: 0.24rem;
+    color: #999;
+  }
+}
 
-    .kaipiao {
-        color: white;
-        margin: 0 auto;
-        margin-top: .7rem;
-    }
+.kaipiao {
+  color: white;
+  margin: 0 auto;
+  margin-top: 0.7rem;
+}
 
-    .kaipiao h3 {
-        text-align: center;
-        margin-bottom: .2rem;
-    }
+.kaipiao h3 {
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
 
-    .kaipiao p {
-        margin-bottom: .1rem;
-        font-size: .32rem;
-    }
+.kaipiao p {
+  margin-bottom: 0.1rem;
+  font-size: 0.32rem;
+}
 
-    .kaipiao span {
-        display: block;
-        margin-bottom: .4rem;
-        margin-left: .4rem;
-    }
+.kaipiao span {
+  display: block;
+  margin-bottom: 0.4rem;
+  margin-left: 0.4rem;
+}
 </style>
 
 <template>
@@ -75,49 +75,64 @@
         </div>
         <div class="kaipiao">
             <h3>各公司开票资料</h3>
-            <span class="counter">
-                <p>单位名称 ：宁波安信数控技术有限公司</p>
-                <p>税     号：91330206761454365U</p>
-                <p>地址电话 ：宁波市北仑区小港小浃江中路518号6幢1号0574-86182587</p>
-                <p>开户行及账号：中国银行宁波北仑海天路支行 358458330633</p>
-            </span>
-            <span>
-                <p>单位名称 ：宁波斯达弗液压传动有限公司</p>
-                <p>税     号：91330206775630438B</p>
-                <p>地址电话 ：宁波市北仑区小港小浃江中路518号2幢1号0574-86188595</p>
-                <p>开户行及账号：建行宁波经济技术开发区支行33101984146050500531</p>
-            </span>
-            <span>
-                <p>单位名称 ：宁波海迈克精密机械制造有限公司</p>
-                <p>税     号：91330206580518083E</p>
-                <p>地址电话 ：宁波市北仑区小浃江中路518号 0574-86188595</p>
-                <p>开户行及账号：建行宁波经济技术开发区支行33101984146050502508</p>
-            </span>
-            <span>
-                <p>单位名称 ：宁波海迈克动力科技有限公司</p>
-                <p>税     号：91330206595353170G</p>
-                <p>地址电话 ：宁波市北仑区小浃江中路518号 0574-86182587</p>
-                <p>开户行及账号：建行宁波经济技术开发区支行33101984146050502940</p>
-            </span>
-             <span>
-                <p>单位名称 宁波海迈克自动化科技有限公司</p>
-                <p>税     号：91330206316901489P</p>
-                <p>地址电话 ：宁波市北仑区小港小浃江中路518号5幢1号0574-86188595</p>
-                <p>开户行及账号：中国银行宁波北仑海天路支行397468076527</p>
+            <span class="counter" v-for="(item, index) in invoiceList" :key="index">
+                <p>单位名称 ：{{item.unitNm}}</p>
+                <p>税     号：{{item.taxNum}}</p>
+                <p>地址电话 ：{{item.adress}} {{item.phone}}</p>
+                <p>开户行及账号：{{item.accountNm}} {{item.accountNum}}</p>
             </span>
         </div>
     </div>
 
 </template>
 <script>
-    export default {
-        data() {
-            return {}
-        },
-        mounted() {
+export default {
+  data() {
+    return {
+      pageSize: 10,
+      pageCount: 1,
+      invoiceList: []
+    };
+  },
+  mounted() {
+    var that = this;
+    //实现手机端下拉滚动加载数据，类似pc端的分页
+    $(window).scroll(function() {
+      let scrollHeight = $(this).scrollTop(); //滚动距离
+      let height = $(this).height(); //窗体的高度
+      let actualHeight = $(document).height(); //文档的高度
+      if (scrollHeight + height >= actualHeight) {
+        that.pageCount++;
+        that.pageSize += 10;
+        that.searchInvoiceList();
+      }
+    });
 
+    this.searchInvoiceList();
+  },
+  methods: {
+    searchInvoiceList() {
+      let query = new this.Query();
+      let queryValue = query.buildPageClause(this.pageCount, this.pageSize);
+      let param = {
+        query: JSON.stringify(queryValue.queryClause)
+      };
+
+      console.log("调用方法开始");
+      this.until.get("/prod/ticket/page", param).then(
+        res => {
+          if (res.status == 200) {
+            console.log(res);
+            console.log(res.data.items);
+            this.invoiceList = res.data.items;
+          }
         },
-        methods: {}
+        err => {
+          console.log(err);
+        }
+      );
     }
+  }
+};
 </script>
 
