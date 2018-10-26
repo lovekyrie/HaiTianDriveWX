@@ -107,10 +107,18 @@ export default {
       this.rightTime=rightTime
 
       let query=new this.Query()
-      query.buildWhereClause('SERIAL_NUMBER',this.serialNumber,'LK')
-      query.buildWhereClause('CUSTOMER',this.customerName,'LK')
-      // query.buildWhereClause('TM',this.leftTime,'GT')
-      // query.buildWhereClause('TM',this.rightTime,'LT')
+      if(this.serialNumber){
+        query.buildWhereClause('serial_NUMBER',this.serialNumber,'LK')
+      }
+      if(this.customerName){
+        query.buildWhereClause('customer',this.customerName,'LK')
+      }
+      if(this.leftTime){
+        query.buildWhereClause('tm',this.leftTime,'GT')
+      }
+      if(this.rightTime){
+        query.buildWhereClause('tm',this.rightTime,'LT')
+      }
 
       query.buildPageClause(this.pageCount,this.pageSize)
 

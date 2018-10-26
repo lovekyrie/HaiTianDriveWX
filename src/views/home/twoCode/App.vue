@@ -102,7 +102,7 @@ export default {
       let height = $(this).height(); //窗体的高度
       let actualHeight = $(document).height(); //文档的高度
       if (scrollHeight + height >= actualHeight) {
-        that.pageCount++;
+        // that.pageCount++;
         that.pageSize += 10;
         that.searchInvoiceList();
       }

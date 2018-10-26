@@ -106,7 +106,7 @@ export default {
       pageSize: 10,
       pageCount: 1,
       deliveryList: [],
-      flag:false,
+      flag: false
     };
   },
   mounted() {
@@ -135,10 +135,18 @@ export default {
       this.rightTime = rightTime;
 
       let query = new this.Query();
-      query.buildWhereClause('FAULT_NUMBER',this.serialNumber,'LK')
-      query.buildWhereClause('NM',this.customerName,'LK')
-      // query.buildWhereClause('ISSUANCE_TM',this.leftTime,'GT')
-      // query.buildWhereClause('ISSUANCE_TM',this.rightTime,'LT')
+      if(this.serialNumber){
+        query.buildWhereClause("faultNumber", this.serialNumber, "LK");
+      }
+      if(this.customerName){
+        query.buildWhereClause("nm", this.customerName, "LK");
+      }
+      if(this.leftTime){
+        query.buildWhereClause("issuanceTm", this.leftTime, "GT");
+      }
+      if(this.rightTime){
+        query.buildWhereClause("issuanceTm", this.rightTime, "LT");
+      }
 
       query.buildPageClause(this.pageCount, this.pageSize);
 
@@ -151,11 +159,10 @@ export default {
           if (res.status === "200") {
             console.log("调用成功");
             this.deliveryList = res.data.items;
-            if(this.deliveryList.length){
-              this.flag=false;
-            }
-            else{
-              this.flag=true;
+            if (this.deliveryList.length) {
+              this.flag = false;
+            } else {
+              this.flag = true;
             }
           }
         },
@@ -196,13 +203,13 @@ body {
           width: 30%;
           text-align: left;
           vertical-align: top;
-          &:nth-of-type(2){
+          &:nth-of-type(2) {
             width: 65%;
           }
         }
       }
     }
-    .noResult{
+    .noResult {
       padding-top: 1rem;
       text-align: center;
     }

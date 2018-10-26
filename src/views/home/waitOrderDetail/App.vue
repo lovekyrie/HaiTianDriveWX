@@ -794,7 +794,7 @@ export default {
       let param = {
         strGDNO: this.sRwdh,
         strType: 1,
-        StrEmpId: '10567'
+        StrEmpId: this.strID
       };
       this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param).then(
         res => {
