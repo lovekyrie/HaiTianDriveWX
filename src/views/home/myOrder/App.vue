@@ -84,7 +84,7 @@
             </div>
             <div class="search">
                 <img src="./img/ser.png">
-                <input type="text" placeholder="搜索客户名称、任务类型" v-model="userSearch" @change="getPo">
+                <input type="text" placeholder="搜索客户名称、工单号" v-model="userSearch" @change="getPo">
                 <button @click="getPor">搜索</button>
             </div>
         </div>
@@ -219,7 +219,7 @@
                   strDateS:this.leftTime,
                   StrDateE:this.rightTime,
                   strGDNO:this.userSearch,
-                  StrEmpID:this.strID,
+                  StrEmpID:'10567',
                   strType:0,
                   strPageCount:this.strPageCount,
                   StrPageRows:this.StrPageRows,

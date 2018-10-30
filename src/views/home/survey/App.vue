@@ -241,7 +241,7 @@ header {
         <div class="rq-c">
             <div class="temp-opt clearfix">
                 <span>顾客名称</span>
-                <span class="fr" >{{customer.顾客名称}}</span>
+                <span class="fr">{{customer.顾客名称}}</span>
             </div>
 
             <div class="temp-opt clearfix">
@@ -953,7 +953,16 @@ export default {
           supplySpeed: this.Ghsd,
           timeliness: this.Kpjs,
           feedback: this.Gkyj,
-          customerSignature: this.customerSign
+          customerSignature: this.customerSign,
+          nm:customer.顾客名称,
+          address:customer.地址,
+          phone:customer.联系电话,
+          linkmanNm:customer.联系人,
+          post:customer.职务,
+          serialNumber:customer.序号,
+          modelSpecification:customer.规格型号,
+          productNumber :customer.产品编号,
+          rmks:customer.备注
         };
 
         this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(

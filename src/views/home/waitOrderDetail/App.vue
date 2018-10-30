@@ -40,23 +40,23 @@ body {
       width: 100%;
       height: 100%;
     }
-    .opt-serial>{
+    .opt-serial > {
       position: absolute;
-      top: -.1rem;
+      top: -0.1rem;
     }
     > input {
       height: 100%;
       width: 100%;
       border: 0;
     }
-    >span{
+    > span {
       width: 100%;
     }
-    >.input-short{
-      top:0;
-      font-size: .24rem;
+    > .input-short {
+      top: 0;
+      font-size: 0.24rem;
     }
-    >.opt-short{
+    > .opt-short {
       width: 100%;
     }
   }
@@ -70,31 +70,84 @@ body {
   }
 }
 
+.serial {
+  padding-bottom: 0;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  > span {
+    width: 20%;
+  }
+  .serial-wrap {
+    width: 80%;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 0;
+    > div {
+      width: 100%;
+      &:nth-of-type(1) {
+        margin-bottom: .2rem;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        span {
+          width: 30%;
+        }
+        input {
+          width: 70%;
+          border: 1px solid #ccc;
+        }
+      }
+      &:nth-of-type(2) {
+        position: relative;
+        select {
+          width: 100%;
+        }
+        svg {
+          position: absolute;
+          top: 50%;
+          right: 0.3rem;
+          transform: translateY(-50%);
+          font-size: 0.2rem;
+          color: #c9c9c9;
+        }
+      }
+      textarea{
+        font-size: 12px;
+      }
+    }
+  }
+}
+
 .opt-double {
   position: relative;
   padding-bottom: 1.6rem;
   padding-right: 0;
   display: -webkit-flex;
   display: flex;
-  >span{
-    line-height: .5rem;
-    width:1.2rem;
+  > span {
+    line-height: 0.5rem;
+    width: 1.2rem;
   }
-  .mu-input{
+  .mu-input {
     z-index: 1999;
     font-size: 12px;
   }
 }
 
-.multi{
+.multi {
   padding-bottom: 1.6rem;
-  >span{
-    &:nth-of-type(1){
+  > span {
+    &:nth-of-type(1) {
       width: 1.2rem;
-      line-height: .5rem;
+      line-height: 0.5rem;
     }
   }
-  .mu-input{
+  .mu-input {
     z-index: 1999;
     font-size: 12px;
   }
@@ -109,7 +162,7 @@ body {
   opacity: 0;
 }
 
-.opt-textarea { 
+.opt-textarea {
   position: relative;
   padding: 0.35rem;
   padding-left: 1.7rem;
@@ -375,7 +428,7 @@ body {
                                 xlink:href="#icon-guanbi"></use></svg>
                     </span>
                     <span class="upimg c-m">
-                        <input type="file" accept="image/*" capture="camera" ref="brokenFile" multiple @change="uploadImg" name={name}>
+                        <input type="file" accept="image/*" multiple ref="brokenFile"  @change="uploadImg" name={name}>
                     </span>
                 </div>
             </div>
@@ -540,20 +593,28 @@ body {
             </div>
         </div>
         <div class="rq">
-            <div class="opt-one opt-double">
+            <div class="opt-one serial">
               <span>
                 <i>*</i>
                 序列号
               </span>
-              <div class="opt-wrap">
-                <select class="opt-set-input"  v-model="Equipment" @change="selectOption($event)">
-                  <option v-for="(item,i) in productFilterArr" :key="i" :value="item.value">{{item.text}}</option>
-                </select>
-                <input class="opt-serial" type="text" v-model="Equipment" @change="getProductList">
+              <div class="serial-wrap">
+                <div>
+                  <span>输入序列号：</span>
+                  <input type="text" v-model="Equipment" @change="getProductList">
+                </div>
+                <div>
+                  <select  v-model="Equipment" @change="selectOption($event)">
+                    <option v-for="(item,i) in productFilterArr" :key="i" :value="item.value">{{item.text}}</option>
+                  </select>
+                  <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiala"></use>
+                  </svg>
+                </div>
                 <mu-text-field v-model="ProductNo" multi-line :rows="3" :rows-max="6"></mu-text-field>
-                <svg class="icon" aria-hidden="true">
+                <!-- <svg class="icon" aria-hidden="true">
                   <use xlink:href="#icon-xiala"></use>
-                </svg>
+                </svg> -->
               </div>
             </div>
 
@@ -661,7 +722,7 @@ export default {
       ZDTextRw: "",
       ZDTextXx: "",
       ZDTextSf: "",
-      ZDTextCd: "",//故障代码
+      ZDTextCd: "", //故障代码
       ZDTextWx: "",
       ZDTextBx: "",
       ZDTextTq: "",
@@ -671,7 +732,7 @@ export default {
       ZDTextPC: "",
       ZDTextFD: "",
       ZDTextPg: "",
-      ZDTextCt:"",
+      ZDTextCt: "",
       currentTime: "",
       str: "",
       ZDTreatment: "",
@@ -683,20 +744,20 @@ export default {
       productList: [],
       Equipment: "",
       product: [],
-      MachineModel:"",
-      MachineNO:"",
-      ProductNo:"",
-      MakeDate:"",
-      RepairYear:"",
-      KeyFailureList:[],
-      KeyFailureDetailList:[],
-      selectFailureType:'',
-      selectDivision:'',
-      MachineModelInput:'',
-      MachineNOInput:'',
-      region:"",
-      receiveUser:"",
-      value9:'',
+      MachineModel: "",
+      MachineNO: "",
+      ProductNo: "",
+      MakeDate: "",
+      RepairYear: "",
+      KeyFailureList: [],
+      KeyFailureDetailList: [],
+      selectFailureType: "",
+      selectDivision: "",
+      MachineModelInput: "",
+      MachineNOInput: "",
+      region: "",
+      receiveUser: "",
+      value9: ""
     };
   },
   computed: {
@@ -710,7 +771,7 @@ export default {
         });
       });
       return newArr;
-    },
+    }
   },
   mounted() {
     sessionStorage.history = history.length;
@@ -740,8 +801,7 @@ export default {
     /*删除图片*/
     deleteImgUrl(index) {
       //后端处理删除数据库中的图片
-      if(index>this.imgArr.length-1){
-
+      if (index > this.imgArr.length - 1) {
         if (this.sRwdh) {
           let param = {
             strGDNO: this.sRwdh,
@@ -765,8 +825,7 @@ export default {
         } else {
           alert("工单号不能为空");
         }
-      }
-      else{
+      } else {
         this.imgArr.splice(index, 1);
       }
     },
@@ -803,41 +862,42 @@ export default {
             this.imgArr = res.data[0].故障图片;
             this.ZDTextPg = res.data[0].服务人员[0];
             // this.region=res.data[0].所属区域;
-            this.receiveUser=res.data[0].接单人;
+            this.receiveUser = res.data[0].接单人;
+            this.ZDTextRw = res.data[0].故障类型;
+            this.ZDTextFD = res.data[0].所属事业部;
           }
         },
         err => {}
       );
     },
-    getDivision(){
-      this.until.get('/general/cat/listByPrntCd',{prntCd:'40050'}).then(
-        res=>{
-          this.wFDept=res.data.items;
-          this.ZDTextFD=res.data.items[0].nm;
-          this.getBrokenErrorType(res.data.items[0].nm)
+    getDivision() {
+      this.until.get("/general/cat/listByPrntCd", { prntCd: "40050" }).then(
+        res => {
+          this.wFDept = res.data.items;
+          // this.ZDTextFD=res.data.items[0].nm;
+          //根据所属事业部选择产品分类
+          this.getBrokenErrorType(this.ZDTextFD);
         },
-        err=>{
-
-        }
-      )
+        err => {}
+      );
     },
-    getBrokenErrorType(e){
-      let divisionValue=e;
-      let divisionArr=this.wFDept.filter(item=>{
-        return item["nm"]===divisionValue
-      })
+    getBrokenErrorType(e) {
+      let divisionValue = e;
+      let divisionArr = this.wFDept.filter(item => {
+        return item["nm"] === divisionValue;
+      });
 
-      this.selectDivision=divisionArr[0].cd
-       this.until.get('/general/cat/listByPrntCd',{prntCd:this.selectDivision}).then(
-        res=>{
-          this.KeyFailureList=res.data.items;
-          this.ZDTextCt=res.data.items[0].nm;
-          this.selectCode(res.data.items[0].nm)
-        },
-        err=>{
-
-        }
-      )
+      this.selectDivision = divisionArr[0].cd;
+      this.until
+        .get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+        .then(
+          res => {
+            this.KeyFailureList = res.data.items;
+            this.ZDTextCt = res.data.items[0].nm;
+            this.selectCode(res.data.items[0].nm);
+          },
+          err => {}
+        );
     },
     selectOpt(cardType, lis) {
       let param = {
@@ -903,9 +963,8 @@ export default {
         res => {
           if (res.success) {
             this.productList = res.data;
-          }
-          else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
         },
         err => {}
@@ -913,100 +972,93 @@ export default {
     },
     selectOption(e) {
       //get the select productno
-      this.ProductNo =!this.ProductNo?e.target.value.split("●")[1]:this.ProductNo+"\n"+ e.target.value.split("●")[1];
-      this.product=this.productList.filter(item=>{
-        return item["ProductNo"]=== e.target.value.split("●")[1]
-      })
+      this.ProductNo = !this.ProductNo
+        ? e.target.value.split("●")[1]
+        : this.ProductNo + "\n" + e.target.value.split("●")[1];
+      this.product = this.productList.filter(item => {
+        return item["ProductNo"] === e.target.value.split("●")[1];
+      });
 
-      this.MachineNO=!this.MachineNO?this.product[0]["ProductMateID"]:this.MachineNO+"\n"+this.product[0]["ProductMateID"];
-      this.MakeDate=!this.MakeDate?this.product[0]["DeliverDate"]:this.MakeDate+"\n"+this.product[0]["DeliverDate"];
-      this.MachineModel=!this.MachineModel?this.product[0]["ProductModel"]:this.MachineModel+"\n"+this.product[0]["ProductModel"];
+      this.MachineNO = !this.MachineNO
+        ? this.product[0]["ProductMateID"]
+        : this.MachineNO + "\n" + this.product[0]["ProductMateID"];
+      this.MakeDate = !this.MakeDate
+        ? this.product[0]["DeliverDate"]
+        : this.MakeDate + "\n" + this.product[0]["DeliverDate"];
+      this.MachineModel = !this.MachineModel
+        ? this.product[0]["ProductModel"]
+        : this.MachineModel + "\n" + this.product[0]["ProductModel"];
       //calcute yearofuse
       let time = this.until.formatDate();
-      let makeYear=this.product[0]["DeliverDate"].substr(0,4);
-      this.UserOfYear=!this.UserOfYear?(parseInt(time.year)-parseInt(makeYear)).toString():this.UserOfYear+"\n"+(parseInt(time.year)-parseInt(makeYear)).toString()
-      this.Equipment="";
+      let makeYear = this.product[0]["DeliverDate"].substr(0, 4);
+      this.UserOfYear = !this.UserOfYear
+        ? (parseInt(time.year) - parseInt(makeYear)).toString()
+        : this.UserOfYear +
+          "\n" +
+          (parseInt(time.year) - parseInt(makeYear)).toString();
+      this.Equipment = "";
     },
-    selectCode(e){
-      let errorCodeName=e;
+    selectCode(e) {
+      let errorCodeName = e;
       //according to codename get the codecd.
-      let selectFailure= this.KeyFailureList.filter(item=>{
-        return item['nm']===errorCodeName
-      })
-      this.selectFailureType=selectFailure[0].cd;
-      this.until.get('/general/cat/listByPrntCd',{prntCd:this.selectFailureType}).then(
-        res=>{
-          this.KeyFailureDetailList=res.data.items;
-          this.ZDTextCd=res.data.items[0].nm
-        },
-        err=>{
-
-        }
-      )
+      let selectFailure = this.KeyFailureList.filter(item => {
+        return item["nm"] === errorCodeName;
+      });
+      this.selectFailureType = selectFailure[0].cd;
+      this.until
+        .get("/general/cat/listByPrntCd", { prntCd: this.selectFailureType })
+        .then(
+          res => {
+            this.KeyFailureDetailList = res.data.items;
+            this.ZDTextCd = res.data.items[0].nm;
+          },
+          err => {}
+        );
     },
     rules() {
       if (this.ZDTreatment === "") {
         this.str += "处理措施不能为空\n";
-      } 
-      else if(!this.waitOrderXq[0].故障描述){
-        this.str+='故障描述不能为空'
-      }
-      else if (this.imgArr.length <= 0) {
+      } else if (!this.waitOrderXq[0].故障描述) {
+        this.str += "故障描述不能为空";
+      } else if (this.imgArr.length <= 0) {
         this.str += "故障图片必须上传1张\n";
-      } 
-      else if (!this.sRwdh) {
+      } else if (!this.sRwdh) {
         this.str += "工单号不能为空\n";
-      }
-      else if(!this.ZDTextSf){
-        this.str+='是否重要故障不能为空'
-      }
-      else if(!this.ZDTextCd){
-        this.str+='故障代码不能为空'
-      }
-      else if(!this.ZDTextWx){
-        this.str+='维修情况不能为空'
-      }
-      else if(!this.ZDTextBx){
-        this.str+='保修情况不能为空'
-      }
-      else if(!this.ZDTextTq){
-        this.str+='提前发货不能为空'
-      }
-      else if(!this.ZDTextMf){
-        this.str+='免费索赔不能为空'
-      }
-      else if(!this.waitOrderXq[0].派工日期){
-        this.str+='派工日期不能为空'
-      }
-      else if(!this.ZDTextGz){
-        this.str+='故障类型不能为空'
-      }
-      else if(!this.ZDTextGzfl){
-        this.str+='故障分类不能为空'
-      }
-      else if(!this.waitOrderXq[0].派工人员){
-        this.str+='派工人员不能为空'
-      }
-      else if(!this.MachineModel && !this.MachineModelInput){
-        this.str+='设备型号不能为空'
-      }
-      else if(!this.MachineNO && !this.MachineNOInput){
-        this.str+='物料号不能为空'
-      }
-      else if(!this.ProductNo && !this.Equipment){
-        this.str+='序列号不能为空'
-      }
-      else if(!this.MakeDate){
-        this.str+='出厂日期不能为空'
-      }
-      else if(!this.currentTime){
-        this.str+='反馈时间不能为空'
+      } else if (!this.ZDTextSf) {
+        this.str += "是否重要故障不能为空";
+      } else if (!this.ZDTextCd) {
+        this.str += "故障代码不能为空";
+      } else if (!this.ZDTextWx) {
+        this.str += "维修情况不能为空";
+      } else if (!this.ZDTextBx) {
+        this.str += "保修情况不能为空";
+      } else if (!this.ZDTextTq) {
+        this.str += "提前发货不能为空";
+      } else if (!this.ZDTextMf) {
+        this.str += "免费索赔不能为空";
+      } else if (!this.waitOrderXq[0].派工日期) {
+        this.str += "派工日期不能为空";
+      } else if (!this.ZDTextGz) {
+        this.str += "故障类型不能为空";
+      } else if (!this.ZDTextGzfl) {
+        this.str += "故障分类不能为空";
+      } else if (!this.waitOrderXq[0].派工人员) {
+        this.str += "派工人员不能为空";
+      } else if (!this.MachineModel && !this.MachineModelInput) {
+        this.str += "设备型号不能为空";
+      } else if (!this.MachineNO && !this.MachineNOInput) {
+        this.str += "物料号不能为空";
+      } else if (!this.ProductNo && !this.Equipment) {
+        this.str += "序列号不能为空";
+      } else if (!this.MakeDate) {
+        this.str += "出厂日期不能为空";
+      } else if (!this.currentTime) {
+        this.str += "反馈时间不能为空";
       }
 
       if (!this.str) {
         return true;
-      } 
-      else {
+      } else {
         return false;
       }
     },
@@ -1022,27 +1074,27 @@ export default {
           Warranty: this.ZDTextBx,
           IsEarlyDelivery: this.ZDTextTq === "是",
           IsFreeClaim: this.ZDTextMf === "是",
-          BrokenType: this.ZDTextGz,//故障类型
-          FaultType: this.ZDTextGzfl,//故障分类
+          BrokenType: this.ZDTextGz, //故障类型
+          FaultType: this.ZDTextGzfl, //故障分类
           GDNO: this.sRwdh,
           Treatment: this.ZDTreatment,
           RepairID: this.ZDTextPg,
           RepairTime: this.currentTime,
           RepairContent: this.repairContent,
-          MachineNOCharge: this.MachineNOCharge,//替代品序列号
-          YearOfUse: this.UserOfYear,//使用年限
+          MachineNOCharge: this.MachineNOCharge, //替代品序列号
+          YearOfUse: this.UserOfYear, //使用年限
           RepairImgs: this.newImgArr.join(","),
-          ProductNo:this.ProductNo,//序列号
-          MachineModel:this.MachineModel || this.MachineModelInput,//产品型号
-          RepairYear:this.RepairYear,//保修年限
-          MakeDate:this.MakeDate,//出厂日期
-          MachineNO:this.MachineNO || this.MachineNOInput,//物料号
-          BrokenCode:this.ZDTextCd,//故障代码
-          TaskType:this.ZDTextRw,//任务类型
-          ReceiveUser:this.receiveUser,//接单人
+          ProductNo: this.ProductNo, //序列号
+          MachineModel: this.MachineModel || this.MachineModelInput, //产品型号
+          RepairYear: this.RepairYear, //保修年限
+          MakeDate: this.MakeDate, //出厂日期
+          MachineNO: this.MachineNO || this.MachineNOInput, //物料号
+          BrokenCode: this.ZDTextCd, //故障代码
+          TaskType: this.ZDTextRw, //任务类型
+          ReceiveUser: this.receiveUser //接单人
         };
 
-        console.log(JSON.stringify(repairBack))
+        console.log(JSON.stringify(repairBack));
         let paramJson = JSON.stringify(repairBack);
 
         let param = {
@@ -1059,26 +1111,26 @@ export default {
             }
           },
           err => {
-            alert(err.msg)
+            alert(err.msg);
           }
         );
       } else {
         alert(this.str);
       }
     },
-    deleteWarningKey(){
-      let param={
-        num:this.sRwdh
-      }
+    deleteWarningKey() {
+      let param = {
+        num: this.sRwdh
+      };
 
-      this.until.post('/weixin/login/delWaringKey',param).then(
-        res=>{
-          console.log('删除预警成功')
+      this.until.post("/weixin/login/delWaringKey", param).then(
+        res => {
+          console.log("删除预警成功");
         },
-        err=>{
-          console.log(err)
+        err => {
+          console.log(err);
         }
-      )
+      );
     },
     uploadImg(ev) {
       //判断安卓环境
@@ -1102,7 +1154,7 @@ export default {
           console.log("上传成功");
           //修改图片的路径，因为上传成功返回的路径不是实际上存储的路径
           this.newImgArr.push(res.data.replace("8086", "90"));
-          this.imgArr.push(res.data.replace("8086", "90"))
+          this.imgArr.push(res.data.replace("8086", "90"));
         },
         err => {}
       );

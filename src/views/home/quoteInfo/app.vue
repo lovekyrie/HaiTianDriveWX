@@ -108,7 +108,7 @@ export default {
 
       let query=new this.Query()
       if(this.serialNumber){
-        query.buildWhereClause('serial_NUMBER',this.serialNumber,'LK')
+        query.buildWhereClause('serialNumber',this.serialNumber,'LK')
       }
       if(this.customerName){
         query.buildWhereClause('customer',this.customerName,'LK')
