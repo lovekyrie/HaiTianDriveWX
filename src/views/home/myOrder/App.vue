@@ -219,7 +219,7 @@
                   strDateS:this.leftTime,
                   StrDateE:this.rightTime,
                   strGDNO:this.userSearch,
-                  StrEmpID:'10567',
+                  StrEmpID: this.strID,
                   strType:0,
                   strPageCount:this.strPageCount,
                   StrPageRows:this.StrPageRows,
