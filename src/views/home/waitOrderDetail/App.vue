@@ -89,7 +89,7 @@ body {
     > div {
       width: 100%;
       &:nth-of-type(1) {
-        margin-bottom: .2rem;
+        margin-bottom: 0.2rem;
         display: -webkit-flex;
         display: flex;
         flex-direction: row;
@@ -116,7 +116,7 @@ body {
           color: #c9c9c9;
         }
       }
-      textarea{
+      textarea {
         font-size: 12px;
       }
     }
@@ -435,10 +435,11 @@ body {
 
             <div class="opt-one" id="optSf">
                 <select class="opt-sel"  v-model="ZDTextSf">
+                    <option value=""></option>
                     <option v-for="item in wSfzy" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   是否重要故障
                 </span>
                 <span class="opt-cnt fr">{{ZDTextSf}}</span>
@@ -449,10 +450,11 @@ body {
 
             <div class="opt-one" id="optZd">
                 <select class="opt-sel" v-model="ZDTextCd">
+                  <option value=""></option>
                     <option v-for="item in KeyFailureDetailList" :key="item.cd" :value="item.nm">{{item.nm}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   故障代码
                 </span>
                 <span class="opt-cnt fr">{{ZDTextCd}}</span>
@@ -495,10 +497,11 @@ body {
 
             <div class="opt-one" id="optTq">
                 <select class="opt-sel" v-model="ZDTextTq">
+                  <option value=""></option>
                     <option v-for="item in wTqfh" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   提前发货
                 </span>
                 <span class="opt-cnt fr">{{ZDTextTq}}</span>
@@ -509,10 +512,11 @@ body {
 
             <div class="opt-one" id="optMf">
                 <select class="opt-sel" v-model="ZDTextMf">
+                  <option value=""></option>
                     <option v-for="item in wMfsp" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   免费索赔
                 </span>
                 <span class="opt-cnt fr">{{ZDTextMf}}</span>
@@ -533,10 +537,11 @@ body {
 
             <div class="opt-one" id="optGz">
                 <select class="opt-sel" v-model="ZDTextGz">
+                  <option value=""></option>
                     <option v-for="(item,index) in wGzlx" :key="index" :value="item.ZDText">{{item.ZDText}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   故障类型
                 </span>
                 <span class="opt-cnt fr">{{ZDTextGz}}</span>
@@ -547,10 +552,11 @@ body {
 
             <div class="opt-one" id="optGzfl">
                 <select class="opt-sel" v-model="ZDTextGzfl">
+                  <option value=""></option>
                     <option v-for="item in wGzfl" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
                 </select>
                 <span>
-                  <i>*</i>
+                  <i v-if="ZDTextRw==='故障维修'">*</i>
                   故障分类
                 </span>
                 <span class="opt-cnt fr">{{ZDTextGzfl}}</span>
@@ -916,7 +922,7 @@ export default {
                 break;
               case 2:
                 this.wSfzy = res.data;
-                this.ZDTextSf = res.data[0].ZDText;
+                this.ZDTextSf ="";
                 break;
               case 3:
                 this.wPCategory = res.data;
@@ -931,19 +937,19 @@ export default {
                 break;
               case 6:
                 this.wTqfh = res.data;
-                this.ZDTextTq = res.data[0].ZDText;
+                this.ZDTextTq = "";
                 break;
               case 7:
                 this.wMfsp = res.data;
-                this.ZDTextMf = res.data[0].ZDText;
+                this.ZDTextMf = "";
                 break;
               case 8:
                 this.wGzlx = res.data;
-                this.ZDTextGz = res.data[0].ZDText;
+                this.ZDTextGz = "";
                 break;
               case 9:
                 this.wGzfl = res.data;
-                this.ZDTextGzfl = res.data[0].ZDText;
+                this.ZDTextGzfl = "";
                 break;
               // case 10:
               //   this.wFDept = res.data;
@@ -1010,7 +1016,12 @@ export default {
         .then(
           res => {
             this.KeyFailureDetailList = res.data.items;
-            this.ZDTextCd = res.data.items[0].nm;
+            if(this.ZDTextRw==='故障维修'){
+              this.ZDTextCd = res.data.items[0].nm;
+            }
+            else{
+              this.ZDTextCd='';
+            }
           },
           err => {}
         );
@@ -1024,24 +1035,26 @@ export default {
         this.str += "故障图片必须上传1张\n";
       } else if (!this.sRwdh) {
         this.str += "工单号不能为空\n";
-      } else if (!this.ZDTextSf) {
-        this.str += "是否重要故障不能为空";
-      } else if (!this.ZDTextCd) {
-        this.str += "故障代码不能为空";
       } else if (!this.ZDTextWx) {
         this.str += "维修情况不能为空";
       } else if (!this.ZDTextBx) {
         this.str += "保修情况不能为空";
-      } else if (!this.ZDTextTq) {
-        this.str += "提前发货不能为空";
-      } else if (!this.ZDTextMf) {
-        this.str += "免费索赔不能为空";
       } else if (!this.waitOrderXq[0].派工日期) {
         this.str += "派工日期不能为空";
-      } else if (!this.ZDTextGz) {
-        this.str += "故障类型不能为空";
-      } else if (!this.ZDTextGzfl) {
-        this.str += "故障分类不能为空";
+      } else if (this.ZDTextRw === "故障维修") {
+        if (!this.ZDTextSf) {
+          this.str += "是否重要故障不能为空";
+        } else if (!this.ZDTextCd) {
+          this.str += "故障代码不能为空";
+        } else if (!this.ZDTextTq) {
+          this.str += "提前发货不能为空";
+        } else if (!this.ZDTextMf) {
+          this.str += "免费索赔不能为空";
+        } else if (!this.ZDTextGz) {
+          this.str += "故障类型不能为空";
+        } else if (!this.ZDTextGzfl) {
+          this.str += "故障分类不能为空";
+        }
       } else if (!this.waitOrderXq[0].派工人员) {
         this.str += "派工人员不能为空";
       } else if (!this.MachineModel && !this.MachineModelInput) {

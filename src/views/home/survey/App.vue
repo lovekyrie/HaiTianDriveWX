@@ -954,15 +954,15 @@ export default {
           timeliness: this.Kpjs,
           feedback: this.Gkyj,
           customerSignature: this.customerSign,
-          nm:customer.顾客名称,
-          address:customer.地址,
-          phone:customer.联系电话,
-          linkmanNm:customer.联系人,
-          post:customer.职务,
-          serialNumber:customer.序号,
-          modelSpecification:customer.规格型号,
-          productNumber :customer.产品编号,
-          rmks:customer.备注
+          nm:this.customer.顾客名称,
+          address:this.customer.地址,
+          phone:this.customer.联系电话,
+          linkmanNm:this.customer.联系人,
+          post:this.customer.职务,
+          serialNumber:this.customer.序号,
+          modelSpecification:this.customer.规格型号,
+          productNumber :this.customer.产品编号,
+          rmks:this.customer.备注
         };
 
         this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(

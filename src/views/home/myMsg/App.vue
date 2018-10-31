@@ -41,16 +41,6 @@
 <template>
     <div id="container">
         <yd-tab v-model="tab2" :callback="fn" :prevent-default="false" :item-click="itemClick">
-            <yd-tab-panel label="工单提醒">
-                <tempApp :obj="obj" :isShow="false" v-for="(item, index) in remindNoticeList" :key="index">
-                    <div slot="content" class="temp-war">
-                        <h3>您有新的任务<span>{{item.派单时间 | toFormat}}</span></h3>
-                        <p class="ell">您有一条{{item.故障类型}}，请到“待办工单”里查看详情</p>
-                        <i></i>
-                    </div>
-                </tempApp>
-            </yd-tab-panel>
-
             <yd-tab-panel label="公司公告">
                 <tempApp :obj="obj" :seaGd="item.noticePk"  v-for="(item, index) in announceList" :key="index">
                     <div slot="content" class="temp-war">

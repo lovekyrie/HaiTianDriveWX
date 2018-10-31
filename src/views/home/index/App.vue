@@ -67,7 +67,7 @@ export default {
         { img: log4, title: "考勤打卡", href: "./card.html" },
         { img: log5, title: "知识共享", href: "./knowledge.html" },
         { img: log6, title: "出库管理", href: "./store.html" },
-        { img: log7, title: "消息提醒", href: "./myMsg.html" },
+        { img: log7, title: "公司公告", href: "./myMsg.html" },
         { img: log8, title: "未完成工单统计", href: "./orderCount.html" },
         { img: log9, title: "公众号二维码", href: "./twoCode.html" },
         { img: log11, title: "发货信息", href: "./deliveryInfo.html" },
