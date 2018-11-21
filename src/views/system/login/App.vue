@@ -152,16 +152,16 @@ export default {
       res => {
         // WeixinJSBridge.call("closeWindow");
         if(res.status!=='200'){
-          setTimeout(() => {
-             location.reload();//刷新页面
-          }, 5000);
-            
+          // setTimeout(() => {
+          //    location.reload();//刷新页面
+          // }, 5000);
+          alert('您无法获取到微信关注以后关联的code,请重试')
         }
       },
       err => {
         alert("登录失败");
         console.log(err);
-        location.reload(); //刷新页面
+        // location.reload(); //刷新页面
       }
     );
     console.log(url);

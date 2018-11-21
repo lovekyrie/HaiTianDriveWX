@@ -611,6 +611,7 @@ body {
                 </div>
                 <div>
                   <select  v-model="Equipment" @change="selectOption($event)">
+                    <option value=""></option>
                     <option v-for="(item,i) in productFilterArr" :key="i" :value="item.value">{{item.text}}</option>
                   </select>
                   <svg class="icon" aria-hidden="true">

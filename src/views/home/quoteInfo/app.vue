@@ -114,10 +114,10 @@ export default {
         query.buildWhereClause('customer',this.customerName,'LK')
       }
       if(this.leftTime){
-        query.buildWhereClause('tm',this.leftTime,'GT')
+        query.buildWhereClause('tm',this.leftTime,'GE')
       }
       if(this.rightTime){
-        query.buildWhereClause('tm',this.rightTime,'LT')
+        query.buildWhereClause('tm',this.rightTime,'LE')
       }
 
       query.buildPageClause(this.pageCount,this.pageSize)

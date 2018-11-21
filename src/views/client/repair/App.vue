@@ -427,14 +427,13 @@ export default {
       } else if (this.strMark == "") {
         this.str += "故障描述不能为空！\n";
       } else if (this.strCust == "") {
-        /*else if(this.dialogImageUrl==''){
-            this.str+='故障图片不能为空！\n'
-        } */ this.str +=
-          "客户名称不能为空！\n";
+        this.str += "客户名称不能为空！\n";
       } else if (this.strContract == "") {
         this.str += "联系人不能为空！\n";
       } else if (!this.strMobile && !this.strPhone) {
         this.str += "手机号、电话至少填写一个！\n";
+      } else if (this.imgArr.length === 0) {
+        this.str += "故障图片不能为空！\n";
       }
 
       let self = this;
@@ -503,6 +502,7 @@ export default {
         this.until.post("/HTWeChat/HTBills/HTSetCustBX", param).then(res => {
           alert("预约报修提交成功，客服会在24小时内联系您！");
           WeixinJSBridge.call("closeWindow");
+          console.log(JSON.stringify(paramCustomer));
           this.until.post("/weixin/push/pushCustomer", paramCustomer);
         });
       } else {

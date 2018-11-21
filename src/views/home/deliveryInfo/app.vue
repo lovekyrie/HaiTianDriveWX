@@ -142,10 +142,10 @@ export default {
         query.buildWhereClause("nm", this.customerName, "LK");
       }
       if(this.leftTime){
-        query.buildWhereClause("issuanceTm", this.leftTime, "GT");
+        query.buildWhereClause("issuanceTm", this.leftTime, "GE");
       }
       if(this.rightTime){
-        query.buildWhereClause("issuanceTm", this.rightTime, "LT");
+        query.buildWhereClause("issuanceTm", this.rightTime, "LE");
       }
 
       query.buildPageClause(this.pageCount, this.pageSize);
