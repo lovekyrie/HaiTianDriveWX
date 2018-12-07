@@ -116,7 +116,7 @@
         methods: {
             toLink(src) {
                 // location.href =' ../../'+src;
-                const netWorkUrl = 'http://server.haitiandrive.com:90/HTASFile/';
+                const netWorkUrl = 'http://server.haitiandrive.com/HTASFile/';
                 console.log(src);
                 window.open(netWorkUrl + src);
             }

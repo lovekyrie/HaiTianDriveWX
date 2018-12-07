@@ -971,6 +971,7 @@ export default {
           if (res.success) {
             this.productList = res.data;
           } else {
+            this.productList=[];
             alert(res.msg);
           }
         },

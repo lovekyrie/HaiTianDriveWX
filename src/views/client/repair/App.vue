@@ -215,6 +215,7 @@ body {
             <div class="opt-one">
 
                 <select class="opt-sel" @change="cSelectOp()" v-model="ZDTextBx">
+                    <option value=""></option>
                     <option :value="item.ZDText" v-for="(item,index) in bxlb" :key="index">{{item.ZDText}}</option>
                 </select>
 
@@ -235,13 +236,13 @@ body {
         <div>
             <div class="opt-one border-c">
                 <span><i>*</i>设备型号:</span>
-                <!-- <input type="text" v-model="strItemModel"> -->
-                <mu-text-field v-model="strItemModel" multi-line :rows="3" :rows-max="6"></mu-text-field>
+                <input type="text" v-model="strItemModel">
+                <!-- <mu-text-field v-model.number="strItemModel" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
             </div>
             <div class="opt-one">
                 <span><i>*</i>序列号:</span>
-                <!-- <input type="text" v-model="strItemSN"> -->
-                <mu-text-field v-model="strItemSN" multi-line :rows="3" :rows-max="6"></mu-text-field>
+                <input type="text" v-model="strItemSN">
+                <!-- <mu-text-field v-model.number="strItemSN" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
             </div>
         </div>
 
@@ -287,13 +288,13 @@ body {
                 <input type="text" v-model="strContract">
             </div>
             <div class="opt-input opt-one">
-                <span>手机号码:</span>
+                <span><i>*</i>联系电话:</span>
                 <input type="text" v-model="strMobile">
             </div>
-            <div class="opt-input opt-one">
+            <!-- <div class="opt-input opt-one">
                 <span>电话号码:</span>
                 <input type="text" v-model="strPhone">
-            </div>
+            </div> -->
             <div class="opt-input opt-one">
                 <span>地址:</span>
                 <input type="text" v-model="strAddress">
@@ -430,8 +431,8 @@ export default {
         this.str += "客户名称不能为空！\n";
       } else if (this.strContract == "") {
         this.str += "联系人不能为空！\n";
-      } else if (!this.strMobile && !this.strPhone) {
-        this.str += "手机号、电话至少填写一个！\n";
+      } else if (!this.strMobile ) {
+        this.str += "联系电话不能为空！\n";
       } else if (this.imgArr.length === 0) {
         this.str += "故障图片不能为空！\n";
       }
@@ -490,11 +491,11 @@ export default {
 
         this.until.loSave("cName", this.strCust);
         this.until.loSave("cLinked", this.strContract);
-        if (this.strMobile) {
+        // if (this.strMobile) {
           this.until.loSave("cMobile", this.strMobile);
-        } else {
-          this.until.loSave("cPhone", this.strPhone);
-        }
+        // } else {
+        //   this.until.loSave("cPhone", this.strPhone);
+        // }
         if (this.strAddress) {
           this.until.loSave("cAddress", this.strAddress);
         }

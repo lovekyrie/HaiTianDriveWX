@@ -126,7 +126,10 @@ export default {
     };
   },
   mounted() {
+    let urlT=window.location.href
+    console.log(urlT)
     let url = window.location.href.split("?")[1];
+    console.log(url)
     let code = "";
     if (url.indexOf("&") > 0) {
       let urlParamArray = url.split("&");
@@ -148,6 +151,7 @@ export default {
     let param = {
       code: code
     };
+    console.log(JSON.stringify(param))
     this.until.get("/weixin/access/login", param).then(
       res => {
         // WeixinJSBridge.call("closeWindow");
@@ -155,7 +159,7 @@ export default {
           // setTimeout(() => {
           //    location.reload();//刷新页面
           // }, 5000);
-          alert('您无法获取到微信关注以后关联的code,请重试')
+          alert('调用后台方法方法login失败,请尝试重新打开页面')
         }
       },
       err => {
