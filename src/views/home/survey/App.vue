@@ -67,6 +67,9 @@ header {
       color: #f00;
     }
   }
+  input{
+    border: 0;
+  }
 }
 
 .temp-input {
@@ -85,11 +88,13 @@ header {
   margin-top: 0.2rem;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
+  >div{
+    &:nth-last-of-type(1){
+      border-bottom: 0;
+    }
+  }
   .temp-opt {
     border-top: 0;
-    &:nth-last-of-type(1) {
-      border: 0;
-    }
   }
 }
 
@@ -273,7 +278,7 @@ header {
 
             <div class="temp-opt clearfix">
                 <span>职务</span>
-                <span class="fr">{{customer.职务}}</span>
+                <input type="text" v-model="position">
             </div>
 
         </div>
@@ -284,24 +289,23 @@ header {
         </div>
 
         <div class="rq-c" style="margin-top: 0">
+          <div v-for="item in customer.productList" :key="item.index">
             <div class="lbwbd temp-opt clearfix">
                 <span>序号</span>
-                <span class="fr">{{customer.序号}}</span>
+                <span class="fr">{{item.index}}</span>
             </div>
-
             <div class="lbwbd temp-opt clearfix">
                 <span>产品型号规格</span>
-                <span class="fr">{{customer.规格型号}}</span>
+                <span class="fr">{{item.machineModel}}</span>
             </div>
-
             <div class="lbwbd temp-opt clearfix">
                 <span>产品编号</span>
-                <span class="fr">{{customer.产品编号}}</span>
+                <span class="fr">{{item.productNo}}</span>
             </div>
-
+          </div>
             <div class="temp-opt clearfix">
                 <span>备注</span>
-                <span class="fr">{{customer.备注}}</span>
+                <input type="text" v-model="remarks">
             </div>
         </div>
 
@@ -612,6 +616,8 @@ export default {
       customerSign: "",
       currentTime: "",
       requireMsg:'',
+      position:'',
+      remarks:"",
     };
   },
   watch: {
@@ -958,11 +964,11 @@ export default {
           address:this.customer.地址,
           phone:this.customer.联系电话,
           linkmanNm:this.customer.联系人,
-          post:this.customer.职务,
+          post:this.position,
           serialNumber:this.customer.序号,
           modelSpecification:this.customer.规格型号,
           productNumber :this.customer.产品编号,
-          rmks:this.customer.备注
+          rmks:this.remarks
         };
 
         this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(

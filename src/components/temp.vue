@@ -49,7 +49,7 @@
 </style>
 
 <template>
-    <div class="temp" :style="{ display:show,'margin-top':tempMargin}">
+    <div class="temp" v-show="show" :style="{'margin-top':tempMargin}">
         <div class="temp-title" v-for="(a,i) in getP" :key="i" v-if="i==lis"><span>工单号：{{a.任务单号}}</span>
             <button class="tit-btn fr" v-if="mode==2" @click="mydSrc(obj.survey)">满意度调查</button>
         </div>
@@ -85,7 +85,7 @@
                 default: []
             },
             show: {
-                type: String,
+                type: Boolean,
                 default: {},
             },
             seaGdArr: {

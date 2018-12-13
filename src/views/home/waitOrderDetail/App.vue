@@ -198,7 +198,17 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    // align-content: space-between;
     padding-top: 0.3rem;
+    >span{
+      // &:nth-of-type(3n+2),
+      // &:nth-of-type(3n+3){
+      //   margin-left: 5%;
+      // }
+      &:nth-of-type(n+4){
+        margin-top: 5%;
+      }
+    }
     .c-m {
       margin-right: 0;
     }
@@ -357,7 +367,6 @@ body {
 
             <div class="opt-one">
                 <span>
-                  <i>*</i>
                   接线员
                 </span>
                 <span class="opt-cnt f-c fr">{{item.接单人}}</span>
@@ -531,7 +540,7 @@ body {
                   派工日期
                 </span>
                 <span class="opt-cnt fr">
-                    <input type="text" v-model="item.派工日期">
+                    <yd-datetime type="date" v-model="item.派工日期" :callback="getPo" :end-date="currentTime"></yd-datetime>
                 </span>
             </div>
 

@@ -189,7 +189,7 @@ export default {
   },
   computed:{
     showResult(){
-      if(this.searchCk){
+      if(this.searchCk.length>0){
         return true;
       }
       else{
@@ -214,7 +214,7 @@ export default {
         console.log("当前页数" + self.strPageCount);
         setTimeout(() => {
           self.strPageRows = self.strPageRows + 4;
-          self.getPor();
+          self.searchBtns();
         }, 500);
       }
     });
@@ -257,12 +257,18 @@ export default {
       this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
         res => {
           if (res.success) {
-     
+            // this.showResult=true
             this.searchCk = res.data;
           } 
+          else{
+            this.searchCk=[]
+            // this.showResult=false;
+          }
         },
         err => {
-          alert(res.msg);
+           this.searchCk=[]
+          // alert(res.msg);
+          // this.showResult=false;
         }
       );
     },

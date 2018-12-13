@@ -36,6 +36,9 @@ body {
     background-color: #004899;
     color: #fff;
   }
+  .active {
+    background-color: #ccc;
+  }
 }
 .fixedBox {
   position: fixed;
@@ -44,25 +47,42 @@ body {
   top: 0;
   z-index: 999;
 }
+.noResult {
+  text-align: center;
+  color: #999;
+  margin-top: 1.2rem;
+}
 </style>
 
 <template>
-    <div id="container">
-        <div class="fixedBox">
-            <div class="search">
-                <img src="./img/ser.png">
-                <input id="inp" type="text" placeholder="搜索工单号、客户名称" v-model="userSearch">
-                <button @click="getPor">搜索</button>
-            </div>
-        </div>
-        <div id="tempFather" v-for="(item,i) in getP" :key="i">
-            <temp :obj="obj" :mode="1" :getP="getP" :lis=i :show="show" :seaGdArr="seaGdArr" :count="2"></temp>
-        </div>
+  <div id="container">
+    <div class="fixedBox">
+      <div class="search">
+        <img src="./img/ser.png">
+        <input id="inp" type="text" placeholder="搜索工单号、客户名称" v-model="userSearch">
+        <button :class="{active:searching}" @click="getPor">搜索</button>
+      </div>
     </div>
+    <div ref="scroll">
+      <div class="noResult" v-show="!showResult">无查询结果</div>
+      <div v-show="showResult" id="tempFather" v-for="(item,i) in getP" :key="i">
+        <temp
+          :obj="obj"
+          :mode="1"
+          :getP="getP"
+          :lis="i"
+          :show="showResult"
+          :seaGdArr="seaGdArr"
+          :count="2">
+        </temp>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import temp from "components/temp";
+import { setTimeout, clearTimeout } from 'timers';
 
 export default {
   data() {
@@ -72,61 +92,70 @@ export default {
       getP: [],
       mode: "",
       lis: "",
-      show: "none",
       seaType: "1",
       seaGd: "",
       seaGdArr: [],
       strID: "",
       strCustNo: "",
-      rowCount: 10
+      rowCount: 5,
+      showResult: false,
+      searching: false, //默认按钮可点击（在这里可以用来当做isLoading）
+      hasMore: true
     };
   },
   mounted() {
-    console.log(this.until.loGet("userPk"));
-
-    console.log(sessionStorage.codeID);
+    
     this.strID = this.until.loGet("userPk");
-
-    var self = this;
-    $(window).scroll(function() {
-      let scrollTop = $(this).scrollTop();
-      let scrollHeight = $(document).height();
-      let windowHeight = $(this).height();
-      if (scrollTop + windowHeight == scrollHeight) {
-        self.rowCount = self.rowCount + 10;
-        self.getPor();
-      }
-    });
-
+    window.addEventListener('scroll',this.scrollLoad,true)
     this.getPor();
   },
   methods: {
-    getPor() {
-      let param = {
-        strCustNo: this.userSearch,
-        strGDNO: "",
-        StrEmpID: this.strID,
-        strType: 0,
-        strPageCount: 0,
-        StrPageRows: this.rowCount
-      };
-      this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param).then(
-        res => {
-          if (res.msg == "") {
-            this.getP = res.data;
-            this.show = "block";
-            for (let i = 0; i < this.getP.length; i++) {
-              this.seaGdArr[i] = this.getP[i].任务单号;
-            }
-          } else {
-            this.getP = [];
-            this.show = "none";
-          }
-        },
-        err => {
-          this.show = "none";
+    scrollLoad(){
+      clearTimeout(this.timer)
+      this.timer=setTimeout(()=>{
+        let {scrollTop,clientHeight,scrollHeight}=this.$refs.scroll
+        if(scrollTop+clientHeight+20>scrollHeight){
+          this.rowCount+=5;
+          this.getPor();
         }
-      );
+      },13)
+     
+    },
+    getPor() {
+      if (this.hasMore && !this.searching) {
+        let param = {
+          strCustNo: this.userSearch,
+          strGDNO: "",
+          StrEmpID: this.strID,
+          strType: 0,
+          strPageCount: 0,
+          StrPageRows: this.rowCount
+        };
+        this.searching = true;
+        this.until
+          .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+          .then(
+            res => {
+              if (res.msg == "") {
+                this.getP = res.data.List;
+                this.showResult = true;
+                this.hasMore = res.data.hasMore;
+                for (let i = 0; i < this.getP.length; i++) {
+                  this.seaGdArr[i] = this.getP[i].任务单号;
+                }
+                this.searching = false;
+              } else {
+                this.getP = [];
+                this.showResult = false;
+                this.searching = false;
+              }
+            },
+            err => {
+              this.showResult = false;
+              this.searching = false;
+            }
+          );
+      }
     }
   },
   components: {

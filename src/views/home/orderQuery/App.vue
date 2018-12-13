@@ -189,12 +189,6 @@
                     }, 500);
                   }
             });
-            // if(history.length >= sessionStorage.history){
-            //     this.searchGdno = sessionStorage.strGDNO;
-            //     this.searchSn =  sessionStorage.strSN;
-            //     this.searchCustName = sessionStorage.strCustName;
-
-            // }
             this.searchBtn();
         },
         methods: {

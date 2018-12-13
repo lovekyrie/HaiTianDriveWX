@@ -79,7 +79,7 @@
         },
         created(){
             this.searchAnnounce();
-            this.findRemindNotice();
+            // this.findRemindNotice();
         },
         mounted(){
 
@@ -89,9 +89,9 @@
                 let scrollHeight=$(this).scrollTop();//滚动距离
                 let height=$(this).height();//窗体的高度
                 let actualHeight=$(document).height();//文档的高度
-                if(scrollHeight+height>=actualHeight){
-                    that.pageCount++;
-                    that.pageSize+=10;
+                if(scrollHeight+height==actualHeight){
+                    // that.pageCount++;
+                    that.pageSize+=5;
                     that.searchAnnounce();
                 }
             })
@@ -107,18 +107,14 @@
             },
             searchAnnounce(){
                 let query= new this.Query;
-                let queryValue=query.buildPageClause(this.pageCount,this.pageSize);
-                let param={
-                    query:JSON.stringify(queryValue.queryClause)
-                };
+                query.buildPageClause(this.pageCount,this.pageSize);
+                let param=query.getParam()
 
                 console.log('调用方法开始');
                 this.until.get('/prod/tice/page',param)
                 .then(res=>{
 
                     if(res.status==200){
-                        console.log(res);
-                        console.log(res.data.items);
                         this.announceList=res.data.items;
                     }
                   

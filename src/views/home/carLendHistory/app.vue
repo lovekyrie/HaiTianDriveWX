@@ -137,14 +137,16 @@ export default {
       this.until.post('/HTWeChat/HTBills/GetCarLendHistoryListByQuery',param).then(
         res=>{
           if(res.data){
+            this.flag=false;
             this.carLendHistoryList=res.data;
           }
           else{
-            alert(res.msg)
+            // alert(res.msg)
+            this.flag=true
           }
         },
         err=>{
-
+          this.flag=true
         }
       )
     }
