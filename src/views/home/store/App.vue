@@ -56,6 +56,9 @@ body {
     border-radius: 5px;
     color: #fff;
   }
+  .active{
+    background-color: #ccc;
+  }
   .s-time {
     flex: 1;
     border: 1px solid @bdColor;
@@ -103,60 +106,88 @@ body {
 </style>
 
 <template>
-    <div id="container">
-        <div class="search">
-            <div class="search-text"><span class="s-tit">型号：</span><input type="text" class="c-ip" placeholder="请输入型号"
-                                                                          v-model="model"></div>
-            <div class="search-text"><span class="s-tit">物料号：</span><input type="text" class="c-ip" placeholder="请输入物料号"
-                                                                           v-model="itemNo"></div>
-            <div class="search-text"><span class="s-tit">序列号：</span><input type="text" class="c-ip" placeholder="请输入序列号"
-                                                                           v-model="searSn"></div>
-            <div class="search-text"><span class="s-tit">客户名称：</span><input type="text" class="c-ip"
-                                                                            placeholder="请输入客户名称" v-model="custName">
-            </div>
-            <div class="s-select search-text">
-                <span class="s-tit">所属事业部：</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-                <select class="c-ip" v-model="deptName">
-                    <option  value="" hidden selected v-show="false">请选择</option>
-                    <option value="">全部</option>
-                    <option v-for="(item,index) in ssb" :key="index">{{item.ZDText}}</option>
-                </select>
-            </div>
-            <div class="search-text">
-                <span class="s-tit">出货日期：</span>
-                <div class="s-time">
-                    <div>
-                        <yd-datetime type="date" v-model="sTime" class="c-timer"></yd-datetime>
-                        <img src="./img/ri.png"></div>
-                    <span>至</span>
-                    <div>
-                        <yd-datetime type="date" v-model="eTime" class="c-timer"></yd-datetime>
-                        <img src="./img/ri.png"></div>
-                </div>
-            </div>
-            <div class="search-text" style="margin-bottom: 0;"><span class="s-tit"></span>
-                <button class="s-btn" @click="searchBtns">搜索</button>
-            </div>
+  <div id="container">
+    <div class="search">
+      <div class="search-text">
+        <span class="s-tit">型号：</span>
+        <input type="text" class="c-ip" placeholder="请输入型号" v-model="model">
+      </div>
+      <div class="search-text">
+        <span class="s-tit">物料号：</span>
+        <input type="text" class="c-ip" placeholder="请输入物料号" v-model="itemNo">
+      </div>
+      <div class="search-text">
+        <span class="s-tit">序列号：</span>
+        <input type="text" class="c-ip" placeholder="请输入序列号" v-model="searSn">
+      </div>
+      <div class="search-text">
+        <span class="s-tit">客户名称：</span>
+        <input type="text" class="c-ip" placeholder="请输入客户名称" v-model="custName">
+      </div>
+      <div class="s-select search-text">
+        <span class="s-tit">所属事业部：</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+        <select class="c-ip" v-model="deptName">
+          <option value hidden selected v-show="false">请选择</option>
+          <option value>全部</option>
+          <option v-for="(item,index) in ssb" :key="index">{{item.ZDText}}</option>
+        </select>
+      </div>
+      <div class="search-text">
+        <span class="s-tit">出货日期：</span>
+        <div class="s-time">
+          <div>
+            <yd-datetime type="date" v-model="sTime" class="c-timer"></yd-datetime>
+            <img src="./img/ri.png">
+          </div>
+          <span>至</span>
+          <div>
+            <yd-datetime type="date" v-model="eTime" class="c-timer"></yd-datetime>
+            <img src="./img/ri.png">
+          </div>
         </div>
-        <div class="noResult" v-show="!showResult">无查询结果</div>
-        <div class="content" v-show="showResult">
-            <tempApp :obj="obj" :seaSn="item.序列号" :seaGd="seaGd"  v-for="(item,i) in searchCk" :key="i">
-                <div slot="content" class="tempapp-cnt">
-                    <p><i>* </i>出货日期：{{item.出货日期}}</p>
-                    <p><i>* </i>物料号：{{item.物料号}}</p>
-                    <p><i>* </i>规格/型号：{{item.规格型号}}</p>
-                    <p><i>* </i>序列号：{{item.序列号}}</p>
-                    <p><i class="v-n">* </i>客户名称：{{item.客户名称}}</p>
-                    <p><i>* </i>所属事业部：{{item.所属事业部}}</p>
-                </div>
-            </tempApp>
-
-
-        </div>
+      </div>
+      <div class="search-text" style="margin-bottom: 0;">
+        <span class="s-tit"></span>
+        <button :class="{active:searching}" class="s-btn" @click="searchBtns">搜索</button>
+      </div>
     </div>
+    <div ref="scroll">
+      <div class="noResult" v-show="!showResult">无查询结果</div>
+      <div class="content" v-show="showResult">
+        <tempApp :obj="obj" :seaSn="item.序列号" :seaGd="seaGd" v-for="(item,i) in searchCk" :key="i">
+          <div slot="content" class="tempapp-cnt">
+            <p>
+              <i>*</i>
+              出货日期：{{item.出货日期}}
+            </p>
+            <p>
+              <i>*</i>
+              物料号：{{item.物料号}}
+            </p>
+            <p>
+              <i>*</i>
+              规格/型号：{{item.规格型号}}
+            </p>
+            <p>
+              <i>*</i>
+              序列号：{{item.序列号}}
+            </p>
+            <p>
+              <i class="v-n">*</i>
+              客户名称：{{item.客户名称}}
+            </p>
+            <p>
+              <i>*</i>
+              所属事业部：{{item.所属事业部}}
+            </p>
+          </div>
+        </tempApp>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -184,15 +215,17 @@ export default {
       },
       seaGd: "",
       strPageCount: 0,
-      strPageRows: 10
+      strPageRows: 10,
+      searching: false,
+      hasMore: true,
+      total: 10
     };
   },
-  computed:{
-    showResult(){
-      if(this.searchCk.length>0){
+  computed: {
+    showResult() {
+      if (this.searchCk.length > 0) {
         return true;
-      }
-      else{
+      } else {
         return false;
       }
     }
@@ -200,30 +233,24 @@ export default {
   mounted() {
     this.searchTj();
     let time = this.until.formatDate();
-    var self = this;
-
-    $(window).scroll(function() {
-      let scrollTop = $(this).scrollTop();
-      let scrollHeight = $(document).height();
-      let windowHeight = $(this).height();
-
-      if (scrollTop + windowHeight == scrollHeight) {
-       
-        // self.strPageCount++;
-        console.log("每页页数" + self.strPageRows);
-        console.log("当前页数" + self.strPageCount);
-        setTimeout(() => {
-          self.strPageRows = self.strPageRows + 4;
-          self.searchBtns();
-        }, 500);
-      }
-    });
 
     this.sTime = time.year + "-01-01";
     this.eTime = time.year + "-" + time.month + "-" + time.day;
+
+    window.addEventListener("scroll", this.scrollLoad, true);
     this.searchBtns();
   },
   methods: {
+    scrollLoad() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        let { scrollTop, clientHeight, scrollHeight } = this.$refs.scroll;
+        if (scrollTop + clientHeight + 20 > scrollHeight) {
+          // this.strPageRows += 5;
+          this.searchBtn();
+        }
+      }, 50);
+    },
     searchTj() {
       let param = {
         strType: "FDEPT"
@@ -239,63 +266,72 @@ export default {
       );
     },
     searchBtns() {
-      this.strPageRows = 10;
-      console.log("---------" + this.sTime);
-      console.log(this.strPageRows);
+      if (this.hasMore && !this.searching) {
 
-      let param = {
-        DateS: this.sTime,
-        DateE: this.eTime,
-        strItemNo: this.itemNo,
-        strModel: this.model,
-        strDeptName: this.deptName,
-        strSN: this.searSn,
-        strCustName: this.custName,
-        strPageCount: 1,
-        strPageRows: this.strPageRows
-      };
-      this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
-        res => {
-          if (res.success) {
-            // this.showResult=true
-            this.searchCk = res.data;
-          } 
-          else{
-            this.searchCk=[]
-            // this.showResult=false;
+        let dataS = this.until.seGet("DateS");
+        let dataE = this.until.seGet("DateE");
+        let strItemNo = this.until.seGet("strItemNo");
+        let strModel = this.until.seGet("strModel");
+        let strDeptName = this.until.seGet("strDeptName");
+        let strSn = this.until.seGet("strSN");
+        let strCustName = this.until.seGet("strCustName");
+        if (
+          this.sTime !== dataS ||
+          this.eTime !== dataE ||
+          this.itemNo !== strItemNo ||
+          this.model !== strModel ||
+          this.deptName !== strDeptName ||
+          this.seaSn !== strSn ||
+          this.custName !== strCustName
+        ) {
+          this.strPageRows = 10;
+        }
+
+        let param = {
+          DateS: this.sTime,
+          DateE: this.eTime,
+          strItemNo: this.itemNo,
+          strModel: this.model,
+          strDeptName: this.deptName,
+          strSN: this.searSn,
+          strCustName: this.custName,
+          strPageCount: 1,
+          strPageRows: this.strPageRows
+        };
+
+        this.until.seSave("DateS", this.sTime);
+        this.until.seSave("DateE", this.eTime);
+        this.until.seSave("strItemNo", this.itemNo);
+        this.until.seSave("strModel", this.model);
+        this.until.seSave("strDeptName", this.deptName);
+        this.until.seSave("strSN", this.searSn);
+        this.until.seSave("strCustName", this.custName);
+
+        this.searching = true;
+        this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
+          res => {
+            if (res.success) {
+              this.searchCk = res.data;
+              this.strPageRows += 5;
+
+              if (res.data.items.length < this.strPageRows) {
+                this.hasMore = false;
+              } else {
+                hasMore = true;
+              }
+            } else {
+              this.searchCk = [];
+              this.hasMore = false;
+            }
+            this.searching = false;
+          },
+          err => {
+            this.searchCk = [];
+            this.searching = false;
+            this.hasMore = false;
           }
-        },
-        err => {
-           this.searchCk=[]
-          // alert(res.msg);
-          // this.showResult=false;
-        }
-      );
-    },
-    getPor() {
-      console.log("每页页数2：" + this.strPageRows);
-      let param = {
-        DateS: this.sTime,
-        DateE: this.eTime,
-        strItemNo: this.itemNo,
-        strModel: this.model,
-        strDeptName: this.deptName,
-        strSN: this.searSn,
-        strCustName: this.custName,
-        strPageCount: this.strPageCount,
-        strPageRows: this.strPageRows
-      };
-
-      this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
-        res => {
-          if (res.success) {
-            this.searchCk = res.data;
-          } 
-        },
-        err => {
-          alert("请输入正确数值");
-        }
-      );
+        );
+      }
     }
   },
   components: {

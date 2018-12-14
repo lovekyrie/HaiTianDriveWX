@@ -191,8 +191,8 @@ export default {
         .then(
           res => {
             if (res.msg == "") {
-              this.myOrderXq = res.data;
-              this.imgArr = res.data[0].故障图片;
+              this.myOrderXq = res.data.List;
+              this.imgArr = this.myOrderXq[0].故障图片;
               console.log(this.moOrderXq);
             }
           },

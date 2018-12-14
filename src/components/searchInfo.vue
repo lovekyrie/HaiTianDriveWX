@@ -27,7 +27,7 @@
       <div class="search-btn">
         <span>
         </span>
-      <button class="query-btn" @click="queryTrigger">查询</button>
+      <button :class="{active:searching}" class="query-btn" @click="queryTrigger">查询</button>
     </div>
     </div>
     
@@ -36,6 +36,12 @@
 
 <script>
 export default {
+  props:{
+    searching:{
+      type:Boolean,
+      default:false
+    }
+  },
   data(){
     return {
       leftTime:'',
@@ -106,6 +112,9 @@ export default {
           color: #fff;
           padding:.15rem 0;
           border-radius: 3px;
+        }
+        .active{
+          background-color: #ccc;
         }
       }
       .date-period{

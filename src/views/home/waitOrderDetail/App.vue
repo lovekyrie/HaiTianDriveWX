@@ -874,13 +874,13 @@ export default {
       this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param).then(
         res => {
           if (res.msg == "") {
-            this.waitOrderXq = res.data;
-            this.imgArr = res.data[0].故障图片;
-            this.ZDTextPg = res.data[0].服务人员[0];
+            this.waitOrderXq = res.data.List;
+            this.imgArr = this.waitOrderXq[0].故障图片;
+            this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
             // this.region=res.data[0].所属区域;
-            this.receiveUser = res.data[0].接单人;
-            this.ZDTextRw = res.data[0].故障类型;
-            this.ZDTextFD = res.data[0].所属事业部;
+            this.receiveUser = this.waitOrderXq[0].接单人;
+            this.ZDTextRw = this.waitOrderXq[0].故障类型;
+            this.ZDTextFD = this.waitOrderXq[0].所属事业部;
           }
         },
         err => {}

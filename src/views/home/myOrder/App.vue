@@ -162,10 +162,10 @@ export default {
       this.timer = setTimeout(() => {
         let { scrollTop, clientHeight, scrollHeight } = this.$refs.scroll;
         if (scrollTop + clientHeight + 20 > scrollHeight) {
-          this.rowCount += 5;
+          this.strPageRows += 5;
           this.getPor();
         }
-      }, 13);
+      }, 100);
     },
     getPor() {
       if (this.hasMore && !this.searching) {
@@ -191,6 +191,7 @@ export default {
                 }
               } else {
                 this.showResult = false;
+                this.hasMore=false;
               }
 
               this.searching = false;
@@ -198,6 +199,7 @@ export default {
             err => {
               this.showResult = false;
               this.searching = false;
+              this.hasMore=false;
             }
           );
       }

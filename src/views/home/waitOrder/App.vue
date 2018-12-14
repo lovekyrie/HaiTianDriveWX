@@ -148,11 +148,13 @@ export default {
                 this.getP = [];
                 this.showResult = false;
                 this.searching = false;
+                this.hasMore=false;
               }
             },
             err => {
               this.showResult = false;
               this.searching = false;
+              this.hasMore=false;
             }
           );
       }
