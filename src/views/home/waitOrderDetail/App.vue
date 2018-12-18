@@ -876,37 +876,55 @@ export default {
           err => {}
         )
         .then(() => {
-          this.sRwdh = this.until.getQueryString("strGDNO");
-          let param = {
-            strGDNO: this.sRwdh,
-            strType: 1,
-            StrEmpId: this.strID
-          };
-          this.until
-            .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
-            .then(
-              res => {
-                if (res.msg == "") {
-                  this.waitOrderXq = res.data.List;
-                  this.imgArr = this.waitOrderXq[0].故障图片;
-                  this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
-                  // this.region=res.data[0].所属区域;
-                  this.receiveUser = this.waitOrderXq[0].接单人;
-                  this.ZDTextRw = this.waitOrderXq[0].故障类型;
-                  this.ZDTextFD = this.waitOrderXq[0].所属事业部;
-                  this.ZDTextCt = this.waitOrderXq[0].产品分类;
-                }
-              },
-              err => {}
-            );
+          return new Promise((resolve, reject) => {
+            this.sRwdh = this.until.getQueryString("strGDNO");
+            let param = {
+              strGDNO: this.sRwdh,
+              strType: 1,
+              StrEmpId: this.strID
+            };
+            this.until
+              .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+              .then(
+                res => {
+                  if (res.msg == "") {
+                    resolve(res.data.List);
+                    // this.waitOrderXq = res.data.List;
+                    // this.imgArr = this.waitOrderXq[0].故障图片;
+                    // this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
+                    // // this.region=res.data[0].所属区域;
+                    // this.receiveUser = this.waitOrderXq[0].接单人;
+                    // this.ZDTextRw = this.waitOrderXq[0].故障类型;
+                    // this.ZDTextFD = this.waitOrderXq[0].所属事业部;
+                    // this.ZDTextCt = this.waitOrderXq[0].产品分类;
+                    console.log(111);
+                  }
+                },
+                err => {}
+              );
+          });
+        })
+        .then(value => {
+          console.log(value);
+          this.waitOrderXq = value;
+          this.imgArr = this.waitOrderXq[0].故障图片;
+          this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
+          // this.region=res.data[0].所属区域;
+          this.receiveUser = this.waitOrderXq[0].接单人;
+          this.ZDTextRw = this.waitOrderXq[0].故障类型;
+          this.ZDTextFD = this.waitOrderXq[0].所属事业部;
+          this.ZDTextCt = this.waitOrderXq[0].产品分类;
         })
         .then(() => {
+          console.log(222);
+          console.log(this.ZDTextFD);
           let divisionArr = this.wFDept.filter(item => {
             return item["nm"] === this.ZDTextFD;
           });
 
           this.selectDivision = divisionArr[0].cd;
-          this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+          this.until
+            .get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
             .then(
               res => {
                 this.KeyFailureList = res.data.items;
@@ -915,11 +933,14 @@ export default {
             );
         })
         .then(() => {
+          console.log(333);
+          console.log(this.ZDTextCt);
           let selectFailure = this.KeyFailureList.filter(item => {
             return item["nm"] === this.ZDTextCt;
           });
           this.selectFailureType = selectFailure[0].cd;
-          this.until.get("/general/cat/listByPrntCd", {
+          this.until
+            .get("/general/cat/listByPrntCd", {
               prntCd: this.selectFailureType
             })
             .then(
