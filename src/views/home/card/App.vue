@@ -383,6 +383,7 @@ export default {
           break;
         case 2:
           this.rmks = val.rmks;
+          this.addressArr = val.addressArr;
           let strVal = JSON.stringify(val);
           this.clientwork.push(JSON.parse(strVal));
           console.log(this.clientwork[0].state);

@@ -292,7 +292,7 @@ header {
           <div v-for="item in customer.productList" :key="item.index">
             <div class="lbwbd temp-opt clearfix">
                 <span>序号</span>
-                <span class="fr">{{item.index}}</span>
+                <span class="fr">{{item.index}}.</span>
             </div>
             <div class="lbwbd temp-opt clearfix">
                 <span>产品型号规格</span>

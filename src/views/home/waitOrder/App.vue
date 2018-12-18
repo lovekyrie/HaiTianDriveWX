@@ -73,8 +73,8 @@ body {
           :lis="i"
           :show="showResult"
           :seaGdArr="seaGdArr"
-          :count="2">
-        </temp>
+          :count="2"
+        ></temp>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@ body {
 
 <script>
 import temp from "components/temp";
-import { setTimeout, clearTimeout } from 'timers';
+import { setTimeout, clearTimeout } from "timers";
 
 export default {
   data() {
@@ -104,59 +104,69 @@ export default {
     };
   },
   mounted() {
-    
     this.strID = this.until.loGet("userPk");
-    window.addEventListener('scroll',this.scrollLoad,true)
+    window.addEventListener("scroll", this.scrollLoad, true);
     this.getPor();
   },
   methods: {
-    scrollLoad(){
-      clearTimeout(this.timer)
-      this.timer=setTimeout(()=>{
-        let {scrollTop,clientHeight,scrollHeight}=this.$refs.scroll
-        if(scrollTop+clientHeight+20>scrollHeight){
-          this.rowCount+=5;
+    scrollLoad() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        let { scrollTop, clientHeight, scrollHeight } = this.$refs.scroll;
+        if (scrollTop + clientHeight + 20 > scrollHeight) {
+          // this.rowCount+=5;
           this.getPor();
         }
-      },13)
-     
+      }, 13);
     },
     getPor() {
-      if (this.hasMore && !this.searching) {
-        let param = {
-          strCustNo: this.userSearch,
-          strGDNO: "",
-          StrEmpID: this.strID,
-          strType: 0,
-          strPageCount: 0,
-          StrPageRows: this.rowCount
-        };
-        this.searching = true;
-        this.until
-          .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
-          .then(
-            res => {
-              if (res.msg == "") {
-                this.getP = res.data.List;
-                this.showResult = true;
-                this.hasMore = res.data.hasMore;
-                for (let i = 0; i < this.getP.length; i++) {
-                  this.seaGdArr[i] = this.getP[i].任务单号;
+      if (!this.searching) {
+        let search = this.until.seGet("search");
+        if (this.userSearch !== search) {
+          this.hasMore = true;
+          this.rowCount = 5;
+        }
+
+        if (this.hasMore) {
+          let param = {
+            strCustNo: this.userSearch,
+            strGDNO: "",
+            StrEmpID:  this.strID,
+            strType: 0,
+            strPageCount: 0,
+            StrPageRows: this.rowCount
+          };
+
+          this.until.seSave("search", this.userSearch);
+
+          this.searching = true;
+          this.until
+            .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+            .then(
+              res => {
+                if (res.msg == "") {
+                  this.getP = res.data.List;
+                  this.rowCount += 5;
+                  this.showResult = true;
+                  this.hasMore = res.data.hasMore;
+                  for (let i = 0; i < this.getP.length; i++) {
+                    this.seaGdArr[i] = this.getP[i].任务单号;
+                  }
+                  this.searching = false;
+                } else {
+                  this.getP = [];
+                  this.showResult = false;
+                  this.searching = false;
+                  this.hasMore = false;
                 }
-                this.searching = false;
-              } else {
-                this.getP = [];
+              },
+              err => {
                 this.showResult = false;
                 this.searching = false;
-                this.hasMore=false;
+                this.hasMore = false;
               }
-            },
-            err => {
-              this.showResult = false;
-              this.searching = false;
-              this.hasMore=false;
-            }
-          );
+            );
+        }
       }
     }
   },

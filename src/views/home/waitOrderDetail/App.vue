@@ -200,12 +200,12 @@ body {
     justify-content: space-between;
     // align-content: space-between;
     padding-top: 0.3rem;
-    >span{
+    > span {
       // &:nth-of-type(3n+2),
       // &:nth-of-type(3n+3){
       //   margin-left: 5%;
       // }
-      &:nth-of-type(n+4){
+      &:nth-of-type(n + 4) {
         margin-top: 5%;
       }
     }
@@ -246,470 +246,484 @@ body {
 </style>
 
 <template>
-    <div id="container">
-        <div v-for="(item,i) in waitOrderXq" :key="i">
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  工单号
-                </span>
-                <span class="opt-cnt f-c fr">{{item.任务单号}}</span>
-            </div>
+  <div id="container">
+    <div v-for="(item,i) in waitOrderXq" :key="i">
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          工单号
+        </span>
+        <span class="opt-cnt f-c fr">{{item.任务单号}}</span>
+      </div>
 
-            <div class="opt-one" id="optRw">
-                <select class="opt-sel" v-model="ZDTextRw">
-                    <option v-for="(item,index) in wRwlx" :key="index" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  任务类型
-                </span>
-                <span class="opt-cnt fr">{{ZDTextRw}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
+      <div class="opt-one" id="optRw">
+        <select class="opt-sel" v-model="ZDTextRw" disabled>
+          <option v-for="(item,index) in wRwlx" :key="index" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          任务类型
+        </span>
+        <span class="opt-cnt f-c fr">{{ZDTextRw}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
 
-            <div class="opt-one" id="optXx">
-                <select  class="opt-sel" @change="cSelectOp(ZDTextXx,'optXx')" v-model="ZDTextXx">
-                    <option v-for="(item,index) in wXxly" :key="index">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  信息来源
-                </span>
-                <span class="opt-cnt fr">{{item.信息来源}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
+      <div class="opt-one" id="optXx">
+        <select class="opt-sel" @change="cSelectOp(ZDTextXx,'optXx')" v-model="ZDTextXx" disabled>
+          <option v-for="(item,index) in wXxly" :key="index">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          信息来源
+        </span>
+        <span class="opt-cnt f-c fr">{{item.信息来源}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  客户名称
-                </span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.客户名称">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          客户名称
+        </span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.客户名称" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  联系人
-                </span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.联系人">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          联系人
+        </span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.联系人" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  客户地址
-                </span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.地址">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          客户地址
+        </span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.地址" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <select class="opt-sel">
-                    <option value="">男</option>
-                    <option value="">女</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  性别
-                </span>
-                <span class="opt-cnt fr">{{item.性别}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
+      <div class="opt-one">
+        <select class="opt-sel" disabled>
+          <option value>男</option>
+          <option value>女</option>
+        </select>
+        <span>
+          <i>*</i>
+          性别
+        </span>
+        <span class="opt-cnt f-c fr">{{item.性别}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
 
-            <div class="opt-one">
-                <span>手机</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.手机">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>手机</span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.手机" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>电话</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.电话">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>电话</span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.电话" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>传真</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.传真">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>传真</span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.传真" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>邮箱</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.邮箱">
-                </span>
-            </div>
+      <div class="opt-one">
+        <span>邮箱</span>
+        <span class="opt-cnt f-c fr">
+          <input type="text" v-model="item.邮箱" disabled>
+        </span>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  提交处理
-                </span>
-                <span class="opt-cnt f-c fr">{{item.提交处理}}</span>
-            </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          提交处理
+        </span>
+        <span class="opt-cnt f-c fr">{{item.提交处理}}</span>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  接线员
-                </span>
-                <span class="opt-cnt f-c fr">{{item.接单人}}</span>
-            </div>
+      <div class="opt-one">
+        <span>接线员</span>
+        <span class="opt-cnt f-c fr">{{item.接单人}}</span>
+      </div>
 
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  创建时间
-                </span>
-                <span class="opt-cnt f-c fr">{{item.创建时间}}</span>
-            </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          创建时间
+        </span>
+        <span class="opt-cnt f-c fr">{{item.创建时间}}</span>
+      </div>
 
-            <div class="opt-one" id="optFD">
-                <select class="opt-sel" @change="getBrokenErrorType(ZDTextFD)" v-model="ZDTextFD">
-                    <option v-for="item in wFDept" :key="item.cd" :value="item.nm">{{item.nm}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  所属事业部
-                </span>
-                <span class="opt-cnt fr">{{ZDTextFD}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
+      <div class="opt-one" id="optFD">
+        <select class="opt-sel" v-model="ZDTextFD" disabled>
+          <option v-for="item in wFDept" :key="item.cd" :value="item.nm">{{item.nm}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          所属事业部
+        </span>
+        <span class="opt-cnt f-c fr">{{ZDTextFD}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
 
-            <div class="opt-one" id="optPC">
-                <select class="opt-sel" v-model="ZDTextCt" @change="selectCode(ZDTextCt)">
-                    <option v-for="item in KeyFailureList" :key="item.cd" :value="item.nm">{{item.nm}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  产品分类
-                </span>
-                <span class="opt-cnt fr">{{ZDTextCt}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
+      <div class="opt-one" id="optPC">
+        <select class="opt-sel" v-model="ZDTextCt" disabled>
+          <option v-for="item in KeyFailureList" :key="item.cd" :value="item.nm">{{item.nm}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          产品分类
+        </span>
+        <span class="opt-cnt f-c fr">{{ZDTextCt}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
 
-            <div class="opt-textarea opt-one">
-                <span style="vertical-align: top">
-                  <i>*</i>
-                  内容描述
-                </span>
-                <textarea placeholder="多行输入" v-model="repairContent"></textarea>
-            </div>
-        </div>
-
-        <div class="rq" v-for="(item,i) in waitOrderXq" :key="i">
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  故障描述
-                </span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="item.故障描述">
-                </span>
-            </div>
-
-            <div class="opt-img opt-one">
-                <span><i>*</i>故障图片</span>
-                <div class="imgshow">
-                    <span class="upimg" v-for="(img,index) in imgArr" :key="index">
-                        <img :src="img">
-                       <svg class="icon" aria-hidden="true" @click="deleteImgUrl(index)"><use
-                                xlink:href="#icon-guanbi"></use></svg>
-                    </span>
-                    <span class="upimg c-m">
-                        <input type="file" accept="image/*" multiple ref="brokenFile"  @change="uploadImg" name={name}>
-                    </span>
-                </div>
-            </div>
-
-            <div class="opt-one" id="optSf">
-                <select class="opt-sel"  v-model="ZDTextSf">
-                    <option value=""></option>
-                    <option v-for="item in wSfzy" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  是否重要故障
-                </span>
-                <span class="opt-cnt fr">{{ZDTextSf}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optZd">
-                <select class="opt-sel" v-model="ZDTextCd">
-                  <option value=""></option>
-                    <option v-for="item in KeyFailureDetailList" :key="item.cd" :value="item.nm">{{item.nm}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  故障代码
-                </span>
-                <span class="opt-cnt fr">{{ZDTextCd}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optWx">
-                <select class="opt-sel" @change="cSelectOp(ZDTextWx,'optWx')" v-model="ZDTextWx">
-                   <option value="返厂维修">返厂维修</option>
-                   <option value="终端客户未返回">终端客户未返回</option>
-                   <option value="终端客户已返回">终端客户已返回</option>
-                   <option value="分厂服务未返厂">分厂服务未返厂</option>
-                   <option value="分厂服务已返厂">分厂服务已返厂</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  维修情况
-                </span>
-                <span class="opt-cnt fr">{{ZDTextWx}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optBx">
-                <select class="opt-sel" v-model="ZDTextBx">
-                    <option v-for="item in wBxqk" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  保修情况
-                </span>
-                <span class="opt-cnt fr">{{ZDTextBx}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optTq">
-                <select class="opt-sel" v-model="ZDTextTq">
-                  <option value=""></option>
-                    <option v-for="item in wTqfh" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  提前发货
-                </span>
-                <span class="opt-cnt fr">{{ZDTextTq}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optMf">
-                <select class="opt-sel" v-model="ZDTextMf">
-                  <option value=""></option>
-                    <option v-for="item in wMfsp" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  免费索赔
-                </span>
-                <span class="opt-cnt fr">{{ZDTextMf}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  派工日期
-                </span>
-                <span class="opt-cnt fr">
-                    <yd-datetime type="date" v-model="item.派工日期" :callback="getPo" :end-date="currentTime"></yd-datetime>
-                </span>
-            </div>
-
-            <div class="opt-one" id="optGz">
-                <select class="opt-sel" v-model="ZDTextGz">
-                  <option value=""></option>
-                    <option v-for="(item,index) in wGzlx" :key="index" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  故障类型
-                </span>
-                <span class="opt-cnt fr">{{ZDTextGz}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one" id="optGzfl">
-                <select class="opt-sel" v-model="ZDTextGzfl">
-                  <option value=""></option>
-                    <option v-for="item in wGzfl" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
-                </select>
-                <span>
-                  <i v-if="ZDTextRw==='故障维修'">*</i>
-                  故障分类
-                </span>
-                <span class="opt-cnt fr">{{ZDTextGzfl}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  所属区域
-                </span>
-                <span class="opt-cnt fr">
-                   <input type="text" v-model="region">{{item.所属区域}}
-                </span>
-            </div>
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  派工人员
-                </span>
-                 <span class="opt-cnt fr">
-                    <input type="text" v-model="item.派工人员">
-                </span>
-            </div>
-
-             <div class="opt-one" id="optPg">
-                <select class="opt-sel" v-model="ZDTextPg">
-                   <option v-for="(item,index) in item.服务人员" :key="index" :value="item">{{item}}</option>
-                </select>
-                <span>
-                  <i>*</i>
-                  服务人员
-                </span>
-                <span class="opt-cnt fr">{{ZDTextPg}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-        </div>
-        <div class="rq">
-            <div class="opt-one serial">
-              <span>
-                <i>*</i>
-                序列号
-              </span>
-              <div class="serial-wrap">
-                <div>
-                  <span>输入序列号：</span>
-                  <input type="text" v-model="Equipment" @change="getProductList">
-                </div>
-                <div>
-                  <select  v-model="Equipment" @change="selectOption($event)">
-                    <option value=""></option>
-                    <option v-for="(item,i) in productFilterArr" :key="i" :value="item.value">{{item.text}}</option>
-                  </select>
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                  </svg>
-                </div>
-                <mu-text-field v-model="ProductNo" multi-line :rows="3" :rows-max="6"></mu-text-field>
-                <!-- <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-xiala"></use>
-                </svg> -->
-              </div>
-            </div>
-
-            <div class="opt-one opt-double">
-              <span>
-                <i>*</i>
-                设备型号
-              </span>
-              <div class="opt-wrap">
-                <input class="input-short" type="text" v-model="MachineModelInput">
-                <mu-text-field v-model="MachineModel" multi-line :rows="3" :rows-max="6"></mu-text-field>
-              </div>
-            </div>
-
-            <div class="opt-one opt-double">
-              <span>
-                <i>*</i>
-                物料号
-              </span>
-              <div class="opt-wrap">
-                <input class="input-short" type="text" v-model="MachineNOInput">
-                <mu-text-field v-model="MachineNO" multi-line :rows="3" :rows-max="6"></mu-text-field>
-              </div>
-            </div>
-
-            <div class="opt-one">
-                <span>替代品序列号</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="MachineNOCharge">
-                </span>
-            </div>
-
-            <div class="opt-one opt-double">
-                <span>使用年限</span>
-                <div class="opt-wrap"> 
-                  <input type="text" disabled="disabled">
-                  <mu-text-field v-model="UserOfYear" multi-line :rows="3" :rows-max="6"></mu-text-field>
-                </div>
-            </div>
-
-            <div class="opt-one opt-double">
-                <span>
-                  <i>*</i>
-                  出厂日期
-                </span>
-                <div class="opt-wrap">
-                  <input type="text" disabled="disabled">
-                  <mu-text-field v-model="MakeDate" multi-line :rows="3" :rows-max="6"></mu-text-field>
-                </div>
-            </div>
-
-            <div class="opt-one">
-                <span>保修年限</span>
-                <span class="opt-cnt fr">
-                    <input type="text" v-model="RepairYear">
-                </span>
-            </div>
-        </div>
-
-        <div class="rq">
-            <div class="opt-textarea opt-one">
-                <span style="vertical-align: top"><i>*</i>处理措施</span>
-                <textarea placeholder="多行输入" v-model="ZDTreatment"></textarea>
-            </div>
-
-            <div class="opt-one">
-                <span>
-                  <i>*</i>
-                  反馈时间
-                </span>
-                <span class="opt-cnt fr">{{this.currentTime}}</span>
-            </div>
-        </div>
-
-        <div class="g-button" @click="clientRepairFeedback">
-            <button>确定</button>
-        </div>
-
+      <div class="opt-textarea opt-one">
+        <span style="vertical-align: top">
+          <i>*</i>
+          内容描述
+        </span>
+        <textarea placeholder="多行输入" v-model="repairContent"></textarea>
+      </div>
     </div>
+
+    <div class="rq" v-for="(item,i) in waitOrderXq" :key="i">
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          故障描述
+        </span>
+        <span class="opt-cnt fr">
+          <input type="text" v-model="item.故障描述">
+        </span>
+      </div>
+
+      <div class="opt-img opt-one">
+        <span>
+          <i>*</i>故障图片
+        </span>
+        <div class="imgshow">
+          <span class="upimg" v-for="(img,index) in imgArr" :key="index">
+            <img :src="img">
+            <svg class="icon" aria-hidden="true" @click="deleteImgUrl(index)">
+              <use xlink:href="#icon-guanbi"></use>
+            </svg>
+          </span>
+          <span class="upimg c-m">
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              ref="brokenFile"
+              @change="uploadImg"
+              name="{name}"
+            >
+          </span>
+        </div>
+      </div>
+
+      <div class="opt-one" id="optSf">
+        <select class="opt-sel" v-model="ZDTextSf">
+          <option value></option>
+          <option v-for="item in wSfzy" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          是否重要故障
+        </span>
+        <span class="opt-cnt fr">{{ZDTextSf}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optZd">
+        <select class="opt-sel" v-model="ZDTextCd">
+          <option value></option>
+          <option v-for="item in KeyFailureDetailList" :key="item.cd" :value="item.nm">{{item.nm}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          故障代码
+        </span>
+        <span class="opt-cnt fr">{{ZDTextCd}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optWx">
+        <select class="opt-sel" @change="cSelectOp(ZDTextWx,'optWx')" v-model="ZDTextWx">
+          <option value="返厂维修">返厂维修</option>
+          <option value="终端客户未返回">终端客户未返回</option>
+          <option value="终端客户已返回">终端客户已返回</option>
+          <option value="分厂服务未返厂">分厂服务未返厂</option>
+          <option value="分厂服务已返厂">分厂服务已返厂</option>
+        </select>
+        <span>
+          <i>*</i>
+          维修情况
+        </span>
+        <span class="opt-cnt fr">{{ZDTextWx}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optBx">
+        <select class="opt-sel" v-model="ZDTextBx">
+          <option v-for="item in wBxqk" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          保修情况
+        </span>
+        <span class="opt-cnt fr">{{ZDTextBx}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optTq">
+        <select class="opt-sel" v-model="ZDTextTq">
+          <option value></option>
+          <option v-for="item in wTqfh" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          提前发货
+        </span>
+        <span class="opt-cnt fr">{{ZDTextTq}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optMf">
+        <select class="opt-sel" v-model="ZDTextMf">
+          <option value></option>
+          <option v-for="item in wMfsp" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          免费索赔
+        </span>
+        <span class="opt-cnt fr">{{ZDTextMf}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          派工日期
+        </span>
+        <span class="opt-cnt fr">
+          <yd-datetime type="date" v-model="item.派工日期" :end-date="currentTime"></yd-datetime>
+        </span>
+      </div>
+
+      <div class="opt-one" id="optGz">
+        <select class="opt-sel" v-model="ZDTextGz">
+          <option value></option>
+          <option v-for="(item,index) in wGzlx" :key="index" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          故障类型
+        </span>
+        <span class="opt-cnt fr">{{ZDTextGz}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one" id="optGzfl">
+        <select class="opt-sel" v-model="ZDTextGzfl">
+          <option value></option>
+          <option v-for="item in wGzfl" :key="item.ZDValue" :value="item.ZDText">{{item.ZDText}}</option>
+        </select>
+        <span>
+          <i v-if="ZDTextRw==='故障维修'">*</i>
+          故障分类
+        </span>
+        <span class="opt-cnt fr">{{ZDTextGzfl}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          所属区域
+        </span>
+        <span class="opt-cnt fr">
+          <input type="text" v-model="region">
+          {{item.所属区域}}
+        </span>
+      </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          派工人员
+        </span>
+        <span class="opt-cnt fr">
+          <input type="text" v-model="item.派工人员">
+        </span>
+      </div>
+
+      <div class="opt-one" id="optPg">
+        <select class="opt-sel" v-model="ZDTextPg">
+          <option v-for="(item,index) in item.服务人员" :key="index" :value="item">{{item}}</option>
+        </select>
+        <span>
+          <i>*</i>
+          服务人员
+        </span>
+        <span class="opt-cnt fr">{{ZDTextPg}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="rq">
+      <div class="opt-one serial">
+        <span>
+          <i>*</i>
+          序列号
+        </span>
+        <div class="serial-wrap">
+          <div>
+            <span>输入序列号：</span>
+            <input type="text" v-model="Equipment" @change="getProductList">
+          </div>
+          <div>
+            <select v-model="Equipment" @change="selectOption($event)">
+              <option value></option>
+              <option
+                v-for="(item,i) in productFilterArr"
+                :key="i"
+                :value="item.value"
+              >{{item.text}}</option>
+            </select>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-xiala"></use>
+            </svg>
+          </div>
+          <mu-text-field v-model="ProductNo" multi-line :rows="3" :rows-max="6"></mu-text-field>
+          <!-- <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-xiala"></use>
+          </svg>-->
+        </div>
+      </div>
+
+      <div class="opt-one opt-double">
+        <span>
+          <i>*</i>
+          设备型号
+        </span>
+        <div class="opt-wrap">
+          <input class="input-short" type="text" v-model="MachineModelInput">
+          <mu-text-field v-model="MachineModel" multi-line :rows="3" :rows-max="6"></mu-text-field>
+        </div>
+      </div>
+
+      <div class="opt-one opt-double">
+        <span>
+          <i>*</i>
+          物料号
+        </span>
+        <div class="opt-wrap">
+          <input class="input-short" type="text" v-model="MachineNOInput">
+          <mu-text-field v-model="MachineNO" multi-line :rows="3" :rows-max="6"></mu-text-field>
+        </div>
+      </div>
+
+      <div class="opt-one">
+        <span>替代品序列号</span>
+        <span class="opt-cnt fr">
+          <input type="text" v-model="MachineNOCharge">
+        </span>
+      </div>
+
+      <div class="opt-one opt-double">
+        <span>使用年限</span>
+        <div class="opt-wrap">
+          <input type="text" disabled="disabled">
+          <mu-text-field v-model="UserOfYear" multi-line :rows="3" :rows-max="6"></mu-text-field>
+        </div>
+      </div>
+
+      <div class="opt-one opt-double">
+        <span>
+          <i>*</i>
+          出厂日期
+        </span>
+        <div class="opt-wrap">
+          <input type="text" disabled="disabled">
+          <mu-text-field v-model="MakeDate" multi-line :rows="3" :rows-max="6"></mu-text-field>
+        </div>
+      </div>
+
+      <div class="opt-one">
+        <span>保修年限</span>
+        <span class="opt-cnt fr">
+          <input type="text" v-model="RepairYear">
+        </span>
+      </div>
+    </div>
+
+    <div class="rq">
+      <div class="opt-textarea opt-one">
+        <span style="vertical-align: top">
+          <i>*</i>处理措施
+        </span>
+        <textarea placeholder="多行输入" v-model="ZDTreatment"></textarea>
+      </div>
+
+      <div class="opt-one">
+        <span>
+          <i>*</i>
+          反馈时间
+        </span>
+        <span class="opt-cnt fr">{{this.currentTime}}</span>
+      </div>
+    </div>
+
+    <div class="g-button" @click="clientRepairFeedback">
+      <button>确定</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -795,11 +809,10 @@ export default {
     let time = this.until.formatDate();
     this.currentTime = time.year + "-" + time.month + "-" + time.day;
 
-    this.searchDdgdxq();
     //get the division
     this.getDivision();
+    // this.searchDdgdxq();
     //get the broken error type
-    // this.getBrokenErrorType();
     this.selectOpt("taskType", 0);
     this.selectOpt("InfoSource", 1);
     this.selectOpt("FIsZYGZ", 2);
@@ -848,72 +861,79 @@ export default {
     cSelectOp(mobel, id) {
       $("#" + id + " .opt-cnt").html(mobel);
     },
-    searchDdgdxq() {
-      function getParamer(paramer) {
-        let url = window.location.href.split("?")[1];
-        if (url.indexOf("&") > 0) {
-          let urlParamArray = url.split("&");
-          for (let i = 0; i < urlParamArray.length; i++) {
-            let paramerName = urlParamArray[i].split("=");
-            if (paramer == paramerName[0]) {
-              return paramerName[1];
-            }
-          }
-        } else {
-          let paramerValue = url.split("=")[1];
-          return paramerValue;
-        }
-      }
 
-      this.sRwdh = getParamer("strGDNO");
-      let param = {
-        strGDNO: this.sRwdh,
-        strType: 1,
-        StrEmpId: this.strID
-      };
-      this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param).then(
-        res => {
-          if (res.msg == "") {
-            this.waitOrderXq = res.data.List;
-            this.imgArr = this.waitOrderXq[0].故障图片;
-            this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
-            // this.region=res.data[0].所属区域;
-            this.receiveUser = this.waitOrderXq[0].接单人;
-            this.ZDTextRw = this.waitOrderXq[0].故障类型;
-            this.ZDTextFD = this.waitOrderXq[0].所属事业部;
-          }
-        },
-        err => {}
-      );
-    },
     getDivision() {
-      this.until.get("/general/cat/listByPrntCd", { prntCd: "40050" }).then(
-        res => {
-          this.wFDept = res.data.items;
-          // this.ZDTextFD=res.data.items[0].nm;
-          //根据所属事业部选择产品分类
-          this.getBrokenErrorType(this.ZDTextFD);
-        },
-        err => {}
-      );
-    },
-    getBrokenErrorType(e) {
-      let divisionValue = e;
-      let divisionArr = this.wFDept.filter(item => {
-        return item["nm"] === divisionValue;
-      });
-
-      this.selectDivision = divisionArr[0].cd;
       this.until
-        .get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+        .get("/general/cat/listByPrntCd", { prntCd: "40050" })
         .then(
           res => {
-            this.KeyFailureList = res.data.items;
-            this.ZDTextCt = res.data.items[0].nm;
-            this.selectCode(res.data.items[0].nm);
+            this.wFDept = res.data.items;
+            // this.ZDTextFD=res.data.items[0].nm;
+            //根据所属事业部选择产品分类
+            // this.getBrokenErrorType(this.ZDTextFD);
+            // resolve(res.data.items)
           },
           err => {}
-        );
+        )
+        .then(() => {
+          this.sRwdh = this.until.getQueryString("strGDNO");
+          let param = {
+            strGDNO: this.sRwdh,
+            strType: 1,
+            StrEmpId: this.strID
+          };
+          this.until
+            .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+            .then(
+              res => {
+                if (res.msg == "") {
+                  this.waitOrderXq = res.data.List;
+                  this.imgArr = this.waitOrderXq[0].故障图片;
+                  this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
+                  // this.region=res.data[0].所属区域;
+                  this.receiveUser = this.waitOrderXq[0].接单人;
+                  this.ZDTextRw = this.waitOrderXq[0].故障类型;
+                  this.ZDTextFD = this.waitOrderXq[0].所属事业部;
+                  this.ZDTextCt = this.waitOrderXq[0].产品分类;
+                }
+              },
+              err => {}
+            );
+        })
+        .then(() => {
+          let divisionArr = this.wFDept.filter(item => {
+            return item["nm"] === this.ZDTextFD;
+          });
+
+          this.selectDivision = divisionArr[0].cd;
+          this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+            .then(
+              res => {
+                this.KeyFailureList = res.data.items;
+              },
+              err => {}
+            );
+        })
+        .then(() => {
+          let selectFailure = this.KeyFailureList.filter(item => {
+            return item["nm"] === this.ZDTextCt;
+          });
+          this.selectFailureType = selectFailure[0].cd;
+          this.until.get("/general/cat/listByPrntCd", {
+              prntCd: this.selectFailureType
+            })
+            .then(
+              res => {
+                this.KeyFailureDetailList = res.data.items;
+                if (this.ZDTextRw === "故障维修") {
+                  this.ZDTextCd = res.data.items[0].nm;
+                } else {
+                  this.ZDTextCd = "";
+                }
+              },
+              err => {}
+            );
+        });
     },
     selectOpt(cardType, lis) {
       let param = {
@@ -932,7 +952,7 @@ export default {
                 break;
               case 2:
                 this.wSfzy = res.data;
-                this.ZDTextSf ="";
+                this.ZDTextSf = "";
                 break;
               case 3:
                 this.wPCategory = res.data;
@@ -980,7 +1000,7 @@ export default {
           if (res.success) {
             this.productList = res.data;
           } else {
-            this.productList=[];
+            this.productList = [];
             alert(res.msg);
           }
         },
@@ -1027,11 +1047,10 @@ export default {
         .then(
           res => {
             this.KeyFailureDetailList = res.data.items;
-            if(this.ZDTextRw==='故障维修'){
+            if (this.ZDTextRw === "故障维修") {
               this.ZDTextCd = res.data.items[0].nm;
-            }
-            else{
-              this.ZDTextCd='';
+            } else {
+              this.ZDTextCd = "";
             }
           },
           err => {}
