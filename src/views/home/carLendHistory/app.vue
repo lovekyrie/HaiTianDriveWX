@@ -5,6 +5,7 @@
         <div>
           <span>车牌号：</span>
           <select v-model="carNo">
+            <option value=""  disabled selected>--请选择--</option>
             <option v-for="(item) in carNoList" :key="item.ID" :value="item.ID">{{item.carNo}}</option>
           </select>
         </div>

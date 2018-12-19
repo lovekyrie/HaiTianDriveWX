@@ -131,7 +131,7 @@ export default {
           let param = {
             strCustNo: this.userSearch,
             strGDNO: "",
-            StrEmpID:  this.strID,
+            StrEmpID: this.strID,
             strType: 0,
             strPageCount: 0,
             StrPageRows: this.rowCount

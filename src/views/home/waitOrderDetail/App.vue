@@ -411,19 +411,17 @@ body {
           <i>*</i>
           内容描述
         </span>
-        <textarea placeholder="多行输入" v-model="repairContent"></textarea>
+        <textarea disabled  v-model="item.故障描述"></textarea>
       </div>
     </div>
 
     <div class="rq" v-for="(item,i) in waitOrderXq" :key="i">
-      <div class="opt-one">
-        <span>
+      <div class="opt-textarea opt-one">
+        <span style="vertical-align: top">
           <i>*</i>
           故障描述
         </span>
-        <span class="opt-cnt fr">
-          <input type="text" v-model="item.故障描述">
-        </span>
+         <textarea type="text" placeholder="多行输入" v-model="repairContent"></textarea>
       </div>
 
       <div class="opt-img opt-one">
@@ -629,7 +627,7 @@ body {
           </div>
           <div>
             <select v-model="Equipment" @change="selectOption($event)">
-              <option value></option>
+              <option value=""></option>
               <option
                 v-for="(item,i) in productFilterArr"
                 :key="i"
@@ -863,15 +861,10 @@ export default {
     },
 
     getDivision() {
-      this.until
-        .get("/general/cat/listByPrntCd", { prntCd: "40050" })
+      this.until.get("/general/cat/listByPrntCd", { prntCd: "40050" })
         .then(
           res => {
             this.wFDept = res.data.items;
-            // this.ZDTextFD=res.data.items[0].nm;
-            //根据所属事业部选择产品分类
-            // this.getBrokenErrorType(this.ZDTextFD);
-            // resolve(res.data.items)
           },
           err => {}
         )
@@ -883,21 +876,11 @@ export default {
               strType: 1,
               StrEmpId: this.strID
             };
-            this.until
-              .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+            this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
               .then(
                 res => {
-                  if (res.msg == "") {
+                  if (!res.msg) {
                     resolve(res.data.List);
-                    // this.waitOrderXq = res.data.List;
-                    // this.imgArr = this.waitOrderXq[0].故障图片;
-                    // this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
-                    // // this.region=res.data[0].所属区域;
-                    // this.receiveUser = this.waitOrderXq[0].接单人;
-                    // this.ZDTextRw = this.waitOrderXq[0].故障类型;
-                    // this.ZDTextFD = this.waitOrderXq[0].所属事业部;
-                    // this.ZDTextCt = this.waitOrderXq[0].产品分类;
-                    console.log(111);
                   }
                 },
                 err => {}
@@ -916,33 +899,27 @@ export default {
           this.ZDTextCt = this.waitOrderXq[0].产品分类;
         })
         .then(() => {
-          console.log(222);
-          console.log(this.ZDTextFD);
-          let divisionArr = this.wFDept.filter(item => {
-            return item["nm"] === this.ZDTextFD;
-          });
+          return new Promise((resolve, reject) => {
+            let divisionArr = this.wFDept.filter(item => {
+              return item["nm"] === this.ZDTextFD;
+            });
 
-          this.selectDivision = divisionArr[0].cd;
-          this.until
-            .get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
-            .then(
-              res => {
-                this.KeyFailureList = res.data.items;
-              },
-              err => {}
-            );
+            this.selectDivision = divisionArr[0].cd;
+            this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+              .then(
+                res => {
+                   resolve(res.data.items);
+                },
+                err => {}
+              );
+          });
         })
-        .then(() => {
-          console.log(333);
-          console.log(this.ZDTextCt);
-          let selectFailure = this.KeyFailureList.filter(item => {
+        .then(value => {
+          let selectFailure = value.filter(item => {
             return item["nm"] === this.ZDTextCt;
           });
           this.selectFailureType = selectFailure[0].cd;
-          this.until
-            .get("/general/cat/listByPrntCd", {
-              prntCd: this.selectFailureType
-            })
+          this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectFailureType})
             .then(
               res => {
                 this.KeyFailureDetailList = res.data.items;
@@ -1055,27 +1032,6 @@ export default {
           "\n" +
           (parseInt(time.year) - parseInt(makeYear)).toString();
       this.Equipment = "";
-    },
-    selectCode(e) {
-      let errorCodeName = e;
-      //according to codename get the codecd.
-      let selectFailure = this.KeyFailureList.filter(item => {
-        return item["nm"] === errorCodeName;
-      });
-      this.selectFailureType = selectFailure[0].cd;
-      this.until
-        .get("/general/cat/listByPrntCd", { prntCd: this.selectFailureType })
-        .then(
-          res => {
-            this.KeyFailureDetailList = res.data.items;
-            if (this.ZDTextRw === "故障维修") {
-              this.ZDTextCd = res.data.items[0].nm;
-            } else {
-              this.ZDTextCd = "";
-            }
-          },
-          err => {}
-        );
     },
     rules() {
       if (this.ZDTreatment === "") {

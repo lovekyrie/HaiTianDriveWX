@@ -78,7 +78,7 @@ body {
         </div>
         <div class="opt-one">
           <select class="opt-sel" @change="selectOption($event)">
-              <option v-for="item in knowledgeTypeList" :key="item.value" :value="item.value">{{item.type}}</option>
+            <option v-for="item in knowledgeTypeList" :key="item.value" :value="item.value">{{item.type}}</option>
           </select>
           <span>知识分类</span>
           <span class="opt-cnt">{{knowledgeType}}</span>
@@ -111,7 +111,7 @@ export default {
       oLxtb: [],
       knowledgeTypeList: [],
       selectType: "",
-      knowledgeType:""
+      knowledgeType:"--请选择--" //默认带出请选择提示
     };
   },
   mounted() {
