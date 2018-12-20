@@ -166,10 +166,10 @@ html {
                 </span>
                 </p>
                 <div class="p-cnt card-btn" v-show="showStart">
-                    <p><span>打卡时间：</span>{{work.workShiftTime}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{work.cardLocation}}</p>
-                    <p><span>备注：</span>{{work.rmks}}</p>
-                    <p class="c-cd">{{work.workDetermine}}</p>
+                    <p><span>打卡时间：</span>{{workOn.crtTm}}</p>
+                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{workOn.cardLocation}}</p>
+                    <p><span>备注：</span>{{workOn.rmks}}</p>
+                    <p class="c-cd">{{workOn.determine}}</p>
                 </div>
                 <div class="p-cnt card-btn" v-show="!startCradState && !showStart">
                     <p><span>打卡时间：</span>{{startwork.time}}</p>
@@ -184,10 +184,10 @@ html {
             </div>
             <div>
                 <div class="p-cnt card-btn c-pi" v-show="showEnd">
-                    <p><span>打卡时间：</span>{{work.closingTime}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{work.cardLocation}}</p>
-                    <p><span>备注：</span>{{work.rmks}}</p>
-                    <p class="c-cd">{{work.closingDeterminr}}</p>
+                    <p><span>打卡时间：</span>{{workOff.crtTm}}</p>
+                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{workOff.cardLocation}}</p>
+                    <p><span>备注：</span>{{workOff.rmks}}</p>
+                    <p class="c-cd">{{workOff.determine}}</p>
                 </div>
                 <div class="p-cnt card-btn c-pi" v-show="!endCradState&&JSON.stringify(endwork)!='{}'&& !showEnd">
                     <p><span>打卡时间：</span>{{endwork.time}}</p>
@@ -219,7 +219,7 @@ html {
                 </div>
                 <button @click="openCardPos(2)">打卡</button>
             </div>
-            <div v-show="clientwork.length">
+            <div v-show="clientwork.length && cardType===2">
                 <div class="client-cnt p-cnt card-btn" v-for="(item,i) in clientwork" :key="i">
                     <p><span>工作状态：</span>{{item.state}}</p>
                     <p><span>打卡时间：</span>{{item.time}}</p>
@@ -229,10 +229,10 @@ html {
             </div>
             <div v-show="customerCard.length">
                 <div class="client-cnt p-cnt card-btn" v-for="(item,i) in customerCard" :key="i">
-                    <p><span>工作状态：</span>{{item.fieldCardVo.punchCardType}}</p>
-                    <p><span>打卡时间：</span>{{item.fieldCardVo.punchTime}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{item.fieldCardVo.cardLocation}}</p>
-                    <p><span>备注：</span>{{item.fieldCardVo.rmks}}</p>
+                    <p><span>工作状态：</span>{{item.punchCardType}}</p>
+                    <p><span>打卡时间：</span>{{item.punchTime}}</p>
+                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{item.cardLocation}}</p>
+                    <p><span>备注：</span>{{item.rmks}}</p>
                 </div>
             </div>
 
@@ -250,7 +250,8 @@ export default {
     return {
       showStart: false,
       showEnd: false,
-      work: {},
+      workOn: {},
+      workOff:{},
       customerCard: [],
       workStartTime: "8:00",
       workEndTime: "17:00",
@@ -299,6 +300,12 @@ export default {
     openCardPos(cardType) {
       this.cardType = cardType;
       this.isShow = true;
+      if(cardType===0){
+        this.workState='上班'
+      }
+      else if(cardType===1){
+        this.workState='下班'
+      }
     },
     //当日打卡数据获取（上下班及现场考勤）
     getCardList() {
@@ -307,38 +314,56 @@ export default {
       };
       this.until.get("/prod/card/getCard", param).then(
         res => {
-          console.log(res.data);
-          if (res.data[0] != null) {
-            //判断是否有上下班打卡记录
-            this.work = res.data[0].cardAttendanceVo;
-            console.log(this.work.workShiftTime);
-            if (this.work.workShiftTime != null) {
-              //是否有上班打卡记录
+          let arr=res.data;
+          console.log(arr)
+          arr.forEach(item=>{
+            let cardInfo=item.fieldCardVo;
+            console.log(cardInfo)
+            if(cardInfo.punchCardType==='上班'){
+              this.workOn=cardInfo;
               this.showStart = true;
               this.startCradState = false;
-            } else {
-              this.showStart = false;
-              this.startCradState = true;
-              console.log("------------1234567890");
             }
-
-            if (this.work.closingTime != null) {
+            else if(cardInfo.punchCardType==='下班'){
+              this.workOff=cardInfo;
               this.showEnd = true;
               this.endCradState = false;
-            } else if (this.startCradState) {
-              console.log("1234567890");
-              this.endCradState = false;
-            } else {
-              this.endCradState = true;
             }
-          } else {
-            //没有上下班打卡记录则显示上班打卡，下班打卡隐藏
-            this.startCradState = true;
-            this.endCradState = false;
-          }
-          if (res.data[1] != null) {
-            this.customerCard = res.data[1];
-          }
+            else{
+              this.customerCard.push(cardInfo)
+            }
+          })
+          // if (res.data[0] != null) {
+          //   //判断是否有上下班打卡记录
+          //   this.work = res.data[0].cardAttendanceVo;
+          //   console.log(this.work.workShiftTime);
+          //   if (this.work.workShiftTime != null) {
+          //     //是否有上班打卡记录
+          //     this.showStart = true;
+          //     this.startCradState = false;
+          //   } else {
+          //     this.showStart = false;
+          //     this.startCradState = true;
+          //     console.log("------------1234567890");
+          //   }
+
+          //   if (this.work.closingTime != null) {
+          //     this.showEnd = true;
+          //     this.endCradState = false;
+          //   } else if (this.startCradState) {
+          //     console.log("1234567890");
+          //     this.endCradState = false;
+          //   } else {
+          //     this.endCradState = true;
+          //   }
+          // } else {
+          //   //没有上下班打卡记录则显示上班打卡，下班打卡隐藏
+          //   this.startCradState = true;
+          //   this.endCradState = false;
+          // }
+          // if (res.data[1] != null) {
+          //   this.customerCard = res.data[1];
+          // }
         },
         err => {
           console.log("获取打卡记录出错");
@@ -369,27 +394,17 @@ export default {
           this.startwork = val;
           this.startCradState = false;
           this.endCradState = true;
-          this.rmks = val.rmks;
-          this.addressArr = val.addressArr;
-          console.log(val);
-          this.toCard();
           break;
         case 1:
           this.endwork = val;
           this.endCradState = false;
-          this.rmks = val.rmks;
-          this.addressArr = val.addressArr;
-          this.toCard();
-          break;
-        case 2:
-          this.rmks = val.rmks;
-          this.addressArr = val.addressArr;
-          let strVal = JSON.stringify(val);
-          this.clientwork.push(JSON.parse(strVal));
-          console.log(this.clientwork[0].state);
-          this.toCustomerCard();
           break;
       }
+        this.rmks = val.rmks;
+        this.addressArr = val.addressArr;
+        let strVal = JSON.stringify(val);
+        this.clientwork.push(JSON.parse(strVal));
+        this.toCustomerCard();
     },
     /*判断是否迟到早退*/
     isLate(time, bool) {

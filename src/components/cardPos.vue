@@ -72,7 +72,7 @@
     <div id="temp" v-show="isShow">
         <div class="c-pos" @click="cancel">
             <div @click.stop>
-                <div class="p-tit">{{type != 3 ? '打卡' : '现场打卡'}}</div>
+                <div class="p-tit">{{type != 2 ? '打卡' : '现场打卡'}}</div>
                 <div class="p-cnt">
                     <p v-show="type == 2"><span>工作状态：</span>{{info.state}}</p>
                     <p><span>打卡时间：</span>{{info.time}}</p>
