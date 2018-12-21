@@ -275,13 +275,13 @@ export default {
       workState: "",
       openCard: "",
       strID: "",
+      strName:'',
       addressArr: "",
       rmks: "",
       isAble: false
     };
   },
   mounted() {
-    console.log(sessionStorage.name);
     this.endCradState = !this.startCradState;
     this.strID = this.until.loGet('userPk');
     if(!this.strID){
@@ -293,6 +293,7 @@ export default {
     this.currentTime = time.year + "-" + time.month + "-" + time.day;
     this.workState = this.selectArr[0].state;
     this.getWorkTime(); //工作时间获取
+    this.getRepairName();
     this.getCardList(); //当天考勤打卡记录获取
   },
   methods: {
@@ -314,20 +315,22 @@ export default {
       };
       this.until.get("/prod/card/getCard", param).then(
         res => {
-          let arr=res.data;
-          console.log(arr)
-          arr.forEach(item=>{
+          let arr=res.data.filter(item=>item);
+          let cardArr=arr[0];
+          cardArr.forEach(item=>{
             let cardInfo=item.fieldCardVo;
             console.log(cardInfo)
             if(cardInfo.punchCardType==='上班'){
               this.workOn=cardInfo;
               this.showStart = true;
               this.startCradState = false;
+              this.endCradState=true;
             }
             else if(cardInfo.punchCardType==='下班'){
               this.workOff=cardInfo;
               this.showEnd = true;
               this.endCradState = false;
+              this.startCradState=true;
             }
             else{
               this.customerCard.push(cardInfo)
@@ -449,9 +452,9 @@ export default {
       let param = {
         cardLocation: this.addressArr,
         punchNmPk: this.strID,
+        punchNm: this.strName,
         rmks: this.rmks,
-        punchCardType: this.clientwork[0].state,
-        punchNm: sessionStorage.name
+        punchCardType: this.clientwork[0].state
       };
       this.until
         .postCard("/prod/field/wdit", JSON.stringify(param))
@@ -463,6 +466,20 @@ export default {
             console.log( err);
           }
         );
+    },
+    getRepairName(){
+      let param={
+        repairNo:this.strID
+      }
+      this.until.post('/HTWeChat/HTBills/GetQualifiedWorkerByNo',param).then(
+        res=>{
+          if(!res.msg){
+            this.strName=res.data.repairName;
+            console.log(this.strName)
+          }
+        },
+        err=>{}
+      )
     }
   },
   components: { cardPos }
