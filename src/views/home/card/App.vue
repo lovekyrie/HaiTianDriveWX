@@ -156,90 +156,170 @@ html {
 </style>
 
 <template>
-    <div id="container">
-        <div class="card">
-            <div class="c-cont">
-                <i></i><i></i>
-                <p>上班时间: {{workStartTime}}<span class="time-ri">{{startTime}}
-                    <yd-datetime type="date" :start-date="currentTime" v-model="startTime"
-                                 class="c-timer"></yd-datetime>
-                </span>
-                </p>
-                <div class="p-cnt card-btn" v-show="showStart">
-                    <p><span>打卡时间：</span>{{workOn.crtTm}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{workOn.cardLocation}}</p>
-                    <p><span>备注：</span>{{workOn.rmks}}</p>
-                    <p class="c-cd">{{workOn.determine}}</p>
-                </div>
-                <div class="p-cnt card-btn" v-show="!startCradState && !showStart">
-                    <p><span>打卡时间：</span>{{startwork.time}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{startwork.addressArr}}</p>
-                    <p><span>备注：</span>{{startwork.rmks}}</p>
-                    <p class="c-cd" v-show="isLate(startwork.time,true)">迟到</p>
-                </div>
-                <div class="card-btn" v-show="startCradState">
-                    <button @click="openCardPos(0)">上班打卡</button>
-                </div>
-                <p>下班时间：{{workEndTime}}</p>
-            </div>
-            <div>
-                <div class="p-cnt card-btn c-pi" v-show="showEnd">
-                    <p><span>打卡时间：</span>{{workOff.crtTm}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{workOff.cardLocation}}</p>
-                    <p><span>备注：</span>{{workOff.rmks}}</p>
-                    <p class="c-cd">{{workOff.determine}}</p>
-                </div>
-                <div class="p-cnt card-btn c-pi" v-show="!endCradState&&JSON.stringify(endwork)!='{}'&& !showEnd">
-                    <p><span>打卡时间：</span>{{endwork.time}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{endwork.addressArr}}</p>
-                    <p><span>备注：</span>{{endwork.rmks}}</p>
-                    <p class="c-cd" v-show="isLate(endwork.time,false)">早退</p>
-                </div>
-                <div class="card-btn" v-show="endCradState">
-                    <button @click="openCardPos(1)">下班打卡</button>
-                </div>
-            </div>
+  <div id="container">
+    <div class="card">
+      <div class="c-cont">
+        <i></i>
+        <i></i>
+        <p>
+          上班时间: {{workStartTime}}
+          <span class="time-ri">
+            {{startTime}}
+            <yd-datetime type="date" :start-date="currentTime" v-model="startTime" class="c-timer"></yd-datetime>
+          </span>
+        </p>
+        <div class="p-cnt card-btn" v-show="showStart">
+          <p>
+            <span>打卡时间：</span>
+            {{workOn.crtTm}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{workOn.cardLocation}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{workOn.rmks}}
+          </p>
+          <p class="c-cd">{{workOn.determine}}</p>
         </div>
-
-        <div class="c-client">
-            <div class="card-btn">
-                <div class="cl-se">
-                    <span>客户现场打卡&nbsp;&nbsp;</span>
-                    <p>
-                        <select v-model="workState" @change="disaOpt">
-                            <option value="" disabled selected hidden>请选择</option>
-                            <option :value="opt.state" v-for="(opt,i) in selectArr" :key="i" :disabled="isAble">
-                                {{opt.state}}
-                            </option>
-                        </select>
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-xiala"></use>
-                        </svg>
-                    </p>
-                </div>
-                <button @click="openCardPos(2)">打卡</button>
-            </div>
-            <div v-show="clientwork.length && cardType===2">
-                <div class="client-cnt p-cnt card-btn" v-for="(item,i) in clientwork" :key="i">
-                    <p><span>工作状态：</span>{{item.state}}</p>
-                    <p><span>打卡时间：</span>{{item.time}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{item.addressArr}}</p>
-                    <p><span>备注：</span>{{item.rmks}}</p>
-                </div>
-            </div>
-            <div v-show="customerCard.length">
-                <div class="client-cnt p-cnt card-btn" v-for="(item,i) in customerCard" :key="i">
-                    <p><span>工作状态：</span>{{item.punchCardType}}</p>
-                    <p><span>打卡时间：</span>{{item.punchTime}}</p>
-                    <p class="c-p"><span>打卡地点：</span><img src="./img/pos.png">{{item.cardLocation}}</p>
-                    <p><span>备注：</span>{{item.rmks}}</p>
-                </div>
-            </div>
-
+        <div class="p-cnt card-btn" v-show="!startCradState && !showStart">
+          <p>
+            <span>打卡时间：</span>
+            {{startwork.time}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{startwork.addressArr}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{startwork.rmks}}
+          </p>
+          <p class="c-cd" v-show="isLate(startwork.time,true)">迟到</p>
         </div>
-
-        <cardPos :type="cardType" :state="workState" v-model="isShow" @data="getCardInfo" :selectArr="selectArr"></cardPos>
+        <div class="card-btn" v-show="startCradState">
+          <button @click="openCardPos(0)">上班打卡</button>
+        </div>
+        <p>下班时间：{{workEndTime}}</p>
+      </div>
+      <div>
+        <div class="p-cnt card-btn c-pi" v-show="showEnd">
+          <p>
+            <span>打卡时间：</span>
+            {{workOff.crtTm}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{workOff.cardLocation}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{workOff.rmks}}
+          </p>
+          <p class="c-cd">{{workOff.determine}}</p>
+        </div>
+        <div
+          class="p-cnt card-btn c-pi"
+          v-show="!endCradState&&JSON.stringify(endwork)!='{}'&& !showEnd"
+        >
+          <p>
+            <span>打卡时间：</span>
+            {{endwork.time}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{endwork.addressArr}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{endwork.rmks}}
+          </p>
+          <p class="c-cd" v-show="isLate(endwork.time,false)">早退</p>
+        </div>
+        <div class="card-btn" v-show="endCradState">
+          <button @click="openCardPos(1)">下班打卡</button>
+        </div>
+      </div>
     </div>
+
+    <div class="c-client">
+      <div class="card-btn">
+        <div class="cl-se">
+          <span>客户现场打卡&nbsp;&nbsp;</span>
+          <p>
+            <select v-model="workState" @change="disaOpt">
+              <option value disabled selected hidden>请选择</option>
+              <option
+                :value="opt.state"
+                v-for="(opt,i) in selectArr"
+                :key="i"
+                :disabled="isAble"
+              >{{opt.state}}</option>
+            </select>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-xiala"></use>
+            </svg>
+          </p>
+        </div>
+        <button @click="openCardPos(2)">打卡</button>
+      </div>
+      <div v-show="clientwork.length && cardType===2">
+        <div class="client-cnt p-cnt card-btn" v-for="(item,i) in clientwork" :key="i">
+          <p>
+            <span>工作状态：</span>
+            {{item.state}}
+          </p>
+          <p>
+            <span>打卡时间：</span>
+            {{item.time}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{item.addressArr}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{item.rmks}}
+          </p>
+        </div>
+      </div>
+      <div v-show="customerCard.length">
+        <div class="client-cnt p-cnt card-btn" v-for="(item,i) in customerCard" :key="i">
+          <p>
+            <span>工作状态：</span>
+            {{item.punchCardType}}
+          </p>
+          <p>
+            <span>打卡时间：</span>
+            {{item.punchTime}}
+          </p>
+          <p class="c-p">
+            <span>打卡地点：</span>
+            <img src="./img/pos.png">
+            {{item.cardLocation}}
+          </p>
+          <p>
+            <span>备注：</span>
+            {{item.rmks}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <cardPos
+      :type="cardType"
+      :state="workState"
+      v-model="isShow"
+      @data="getCardInfo"
+      :selectArr="selectArr"
+    ></cardPos>
+  </div>
 </template>
 
 <script>
@@ -251,7 +331,7 @@ export default {
       showStart: false,
       showEnd: false,
       workOn: {},
-      workOff:{},
+      workOff: {},
       customerCard: [],
       workStartTime: "8:00",
       workEndTime: "17:00",
@@ -267,15 +347,11 @@ export default {
       endCradState: true,
       endwork: {},
       clientwork: [],
-      selectArr: [
-        { state: "出发" },
-        { state: "到达" },
-        { state: "返回" }
-      ],
+      selectArr: [{ state: "出发" }, { state: "到达" }, { state: "返回" }],
       workState: "",
       openCard: "",
       strID: "",
-      strName:'',
+      strName: "",
       addressArr: "",
       rmks: "",
       isAble: false
@@ -283,11 +359,11 @@ export default {
   },
   mounted() {
     this.endCradState = !this.startCradState;
-    this.strID = this.until.loGet('userPk');
-    if(!this.strID){
-        window.location.href="index.html";
+    this.strID = this.until.loGet("userPk");
+    if (!this.strID) {
+      window.location.href = "index.html";
     }
-    
+
     /*获取当前时间年月日*/
     let time = this.until.formatDate();
     this.currentTime = time.year + "-" + time.month + "-" + time.day;
@@ -295,17 +371,19 @@ export default {
     this.getWorkTime(); //工作时间获取
     this.getRepairName();
     this.getCardList(); //当天考勤打卡记录获取
+    if (this.workState === "上班") {
+      console.log("调用显示是否迟到方法");
+    }
   },
   methods: {
     /*召唤打卡定位界面*/
     openCardPos(cardType) {
       this.cardType = cardType;
       this.isShow = true;
-      if(cardType===0){
-        this.workState='上班'
-      }
-      else if(cardType===1){
-        this.workState='下班'
+      if (cardType === 0) {
+        this.workState = "上班";
+      } else if (cardType === 1) {
+        this.workState = "下班";
       }
     },
     //当日打卡数据获取（上下班及现场考勤）
@@ -315,27 +393,25 @@ export default {
       };
       this.until.get("/prod/card/getCard", param).then(
         res => {
-          let arr=res.data.filter(item=>item);
-          let cardArr=arr[0];
-          cardArr.forEach(item=>{
-            let cardInfo=item.fieldCardVo;
-            console.log(cardInfo)
-            if(cardInfo.punchCardType==='上班'){
-              this.workOn=cardInfo;
+          let arr = res.data.filter(item => item);
+          let cardArr = arr[0];
+          cardArr.forEach(item => {
+            let cardInfo = item.fieldCardVo;
+            console.log(cardInfo);
+            if (cardInfo.punchCardType === "上班") {
+              this.workOn = cardInfo;
               this.showStart = true;
               this.startCradState = false;
-              this.endCradState=true;
-            }
-            else if(cardInfo.punchCardType==='下班'){
-              this.workOff=cardInfo;
+              this.endCradState = true;
+            } else if (cardInfo.punchCardType === "下班") {
+              this.workOff = cardInfo;
               this.showEnd = true;
               this.endCradState = false;
-              this.startCradState=true;
+              this.startCradState = true;
+            } else {
+              this.customerCard.push(cardInfo);
             }
-            else{
-              this.customerCard.push(cardInfo)
-            }
-          })
+          });
           // if (res.data[0] != null) {
           //   //判断是否有上下班打卡记录
           //   this.work = res.data[0].cardAttendanceVo;
@@ -403,20 +479,22 @@ export default {
           this.endCradState = false;
           break;
       }
-        this.rmks = val.rmks;
-        this.addressArr = val.addressArr;
-        let strVal = JSON.stringify(val);
-        this.clientwork.push(JSON.parse(strVal));
-        this.toCustomerCard();
+      this.rmks = val.rmks;
+      this.addressArr = val.addressArr;
+      let strVal = JSON.stringify(val);
+      this.clientwork.push(JSON.parse(strVal));
+      this.toCustomerCard();
     },
     /*判断是否迟到早退*/
     isLate(time, bool) {
-      let tiem = bool ? this.workStartTime : this.workEndTime;
-      let result =
-        new Date("2017-1-1 " + tiem) < new Date("2017-1-1 " + time)
-          ? true
-          : false;
-      return bool ? result : !result;
+      /* tiem为正常时间 */
+      if (time) {
+        let tiem = bool ? this.workStartTime : this.workEndTime;
+        let time1 = new Date() + tiem;
+        let time2 = new Date() + time;
+        let result = time1 < time2;
+        return bool ? result : !result;
+      }
     },
     disaOpt() {
       console.log(this.selectArr);
@@ -456,30 +534,28 @@ export default {
         rmks: this.rmks,
         punchCardType: this.clientwork[0].state
       };
-      this.until
-        .postCard("/prod/field/wdit", JSON.stringify(param))
-        .then(
-          res => {
-            console.log(res);
-          },
-          err => {
-            console.log( err);
-          }
-        );
+      this.until.postCard("/prod/field/wdit", JSON.stringify(param)).then(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
     },
-    getRepairName(){
-      let param={
-        repairNo:this.strID
-      }
-      this.until.post('/HTWeChat/HTBills/GetQualifiedWorkerByNo',param).then(
-        res=>{
-          if(!res.msg){
-            this.strName=res.data.repairName;
-            console.log(this.strName)
+    getRepairName() {
+      let param = {
+        repairNo: this.strID
+      };
+      this.until.post("/HTWeChat/HTBills/GetQualifiedWorkerByNo", param).then(
+        res => {
+          if (!res.msg) {
+            this.strName = res.data.repairName;
+            console.log(this.strName);
           }
         },
-        err=>{}
-      )
+        err => {}
+      );
     }
   },
   components: { cardPos }

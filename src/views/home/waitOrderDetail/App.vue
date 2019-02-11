@@ -59,6 +59,9 @@ body {
     > .opt-short {
       width: 100%;
     }
+    button {
+      background-color: #01fb01;
+    }
   }
   svg {
     position: absolute;
@@ -247,7 +250,7 @@ body {
 
 <template>
   <div id="container">
-    <div v-for="(item,i) in waitOrderXq" :key="i">
+    <div>
       <div class="opt-one">
         <span>
           <i>*</i>
@@ -411,17 +414,17 @@ body {
           <i>*</i>
           内容描述
         </span>
-        <textarea disabled  v-model="item.故障描述"></textarea>
+        <textarea disabled v-model="item.故障描述"></textarea>
       </div>
     </div>
 
-    <div class="rq" v-for="(item,i) in waitOrderXq" :key="i">
+    <div class="rq">
       <div class="opt-textarea opt-one">
         <span style="vertical-align: top">
           <i>*</i>
           故障描述
         </span>
-         <textarea type="text" placeholder="多行输入" v-model="repairContent"></textarea>
+        <textarea type="text" placeholder="多行输入" v-model="repairContent"></textarea>
       </div>
 
       <div class="opt-img opt-one">
@@ -627,7 +630,7 @@ body {
           </div>
           <div>
             <select v-model="Equipment" @change="selectOption($event)">
-              <option value=""></option>
+              <option value></option>
               <option
                 v-for="(item,i) in productFilterArr"
                 :key="i"
@@ -688,7 +691,8 @@ body {
           出厂日期
         </span>
         <div class="opt-wrap">
-          <input type="text" disabled="disabled">
+          <button @click="open">选择日期</button>
+          <yd-datetime type="date" ref="datetime" v-model="datetime8" :callback="pushMakeDate">选择日期</yd-datetime>
           <mu-text-field v-model="MakeDate" multi-line :rows="3" :rows-max="6"></mu-text-field>
         </div>
       </div>
@@ -733,6 +737,7 @@ export default {
       imgArr: [],
       srwdh: "",
       waitOrderXq: [],
+      item: {},
       strID: "",
       faultType: "FaultType",
       wRwlx: [],
@@ -785,7 +790,8 @@ export default {
       MachineNOInput: "",
       region: "",
       receiveUser: "",
-      value9: ""
+      value9: "",
+      datetime8: ""
     };
   },
   computed: {
@@ -825,6 +831,20 @@ export default {
     this.selectOpt("FDEPT", 10);
   },
   methods: {
+    pushMakeDate() {
+      //第一次是2009-01-01的时候
+      if (
+        this.datetime8 &&
+        (this.MakeDate || this.datetime8 !== "2009-01-01")
+      ) {
+        this.MakeDate += "\n" + this.datetime8.replace(/-/g, ".");
+      }
+      this.datetime8 = "";
+    },
+    /** 弹出时间选择*/
+    open() {
+      this.$refs.datetime.open();
+    },
     /*删除图片*/
     deleteImgUrl(index) {
       //后端处理删除数据库中的图片
@@ -861,7 +881,8 @@ export default {
     },
 
     getDivision() {
-      this.until.get("/general/cat/listByPrntCd", { prntCd: "40050" })
+      this.until
+        .get("/general/cat/listByPrntCd", { prntCd: "40050" })
         .then(
           res => {
             this.wFDept = res.data.items;
@@ -876,7 +897,8 @@ export default {
               strType: 1,
               StrEmpId: this.strID
             };
-            this.until.post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
+            this.until
+              .post("/HTWeChat/HTBills/HTGetMyPendingOrderList", param)
               .then(
                 res => {
                   if (!res.msg) {
@@ -890,6 +912,7 @@ export default {
         .then(value => {
           console.log(value);
           this.waitOrderXq = value;
+          this.item = value[0];
           this.imgArr = this.waitOrderXq[0].故障图片;
           this.ZDTextPg = this.waitOrderXq[0].服务人员[0];
           // this.region=res.data[0].所属区域;
@@ -905,10 +928,11 @@ export default {
             });
 
             this.selectDivision = divisionArr[0].cd;
-            this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
+            this.until
+              .get("/general/cat/listByPrntCd", { prntCd: this.selectDivision })
               .then(
                 res => {
-                   resolve(res.data.items);
+                  resolve(res.data.items);
                 },
                 err => {}
               );
@@ -919,7 +943,10 @@ export default {
             return item["nm"] === this.ZDTextCt;
           });
           this.selectFailureType = selectFailure[0].cd;
-          this.until.get("/general/cat/listByPrntCd", { prntCd: this.selectFailureType})
+          this.until
+            .get("/general/cat/listByPrntCd", {
+              prntCd: this.selectFailureType
+            })
             .then(
               res => {
                 this.KeyFailureDetailList = res.data.items;
