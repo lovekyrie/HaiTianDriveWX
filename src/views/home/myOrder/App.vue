@@ -48,7 +48,7 @@ body {
     background-color: #004899;
     color: #fff;
   }
-  .active{
+  .active {
     background-color: #ccc;
   }
 }
@@ -92,7 +92,7 @@ body {
         <button :class="{active:searching}" @click="getPor">搜索</button>
       </div>
     </div>
-    <div ref="scrool">
+    <div ref="scroll">
       <div class="noResult" v-show="!showResult">无查询结果</div>
       <div id="tempFather" v-show="showResult" v-for="(item,i) in getP" :key="item.rownumber">
         <temp
@@ -157,7 +157,7 @@ export default {
     this.getPor();
   },
   methods: {
-    scroolLoad() {
+    scrollLoad() {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         let { scrollTop, clientHeight, scrollHeight } = this.$refs.scroll;
@@ -168,7 +168,21 @@ export default {
       }, 100);
     },
     getPor() {
-      if (this.hasMore && !this.searching) {
+      if (!this.searching) {
+        //查询处理，
+        let dataS = this.until.seGet("DateS");
+        let dataE = this.until.seGet("DateE");
+        let strGDNO = this.until.seGet("strGDNO");
+
+        if (
+          this.leftTime !== dataS ||
+          this.rightTime !== dataE ||
+          this.userSearch !== strGDNO
+        ) {
+          this.strPageRows = 5;
+          this.hasMore = true;
+        }
+
         let param = {
           strDateS: this.leftTime,
           StrDateE: this.rightTime,
@@ -178,30 +192,39 @@ export default {
           strPageCount: this.strPageCount,
           strPageRows: this.strPageRows
         };
-        this.searching = true;
-        this.until.post("/HTWeChat/HTBills/HTGetMyProcessedOrderList", param)
-          .then(
-            res => {
-              if (res.msg == "") {
-                this.getP = res.data.List;
-                this.hasMore = res.data.hasMore;
-                this.showResult = true;
-                for (let i = 0; i < this.getP.length; i++) {
-                  this.seaGdArr[i] = this.getP[i].任务单号;
-                }
-              } else {
-                this.showResult = false;
-                this.hasMore=false;
-              }
 
-              this.searching = false;
-            },
-            err => {
-              this.showResult = false;
-              this.searching = false;
-              this.hasMore=false;
-            }
-          );
+        this.until.seSave("DateS", this.leftTime);
+        this.until.seSave("DateE", this.rightTime);
+        this.until.seSave("strGDNO", this.userSearch);
+
+        this.searching = true;
+        if (this.hasMore) {
+          this.until
+            .post("/HTWeChat/HTBills/HTGetMyProcessedOrderList", param)
+            .then(
+              res => {
+                if (res.msg == "") {
+                  this.getP = res.data.List;
+                  this.hasMore = res.data.hasMore;
+                  this.showResult = true;
+                  for (let i = 0; i < this.getP.length; i++) {
+                    this.seaGdArr[i] = this.getP[i].任务单号;
+                  }
+                } else {
+                  this.showResult = false;
+                  this.hasMore = false;
+                }
+
+                this.searching = false;
+              },
+              err => {
+                this.showResult = false;
+                this.searching = false;
+                this.hasMore = false;
+              }
+            );
+        }
+        this.searching = false;
       }
     }
   },

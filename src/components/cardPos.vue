@@ -159,8 +159,10 @@ export default {
 
     var self = this;
     function sucCallback(position) {
+      console.log(position);
       var mapInfo = JSON.stringify(position, null, 4);
       var jsonMapInfo = JSON.parse(mapInfo);
+      console.log(jsonMapInfo);
       // alert("腾讯经度为:"+jsonMapInfo.lng+",腾讯纬度为:"+jsonMapInfo.lat);
       self.info.addressArr = jsonMapInfo.addr;
     }

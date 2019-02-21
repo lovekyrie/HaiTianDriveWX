@@ -56,7 +56,7 @@ body {
     border-radius: 5px;
     color: #fff;
   }
-  .active{
+  .active {
     background-color: #ccc;
   }
   .s-time {
@@ -247,7 +247,7 @@ export default {
         let { scrollTop, clientHeight, scrollHeight } = this.$refs.scroll;
         if (scrollTop + clientHeight + 20 > scrollHeight) {
           // this.strPageRows += 5;
-          this.searchBtn();
+          this.searchBtns();
         }
       }, 50);
     },
@@ -266,8 +266,7 @@ export default {
       );
     },
     searchBtns() {
-      if (this.hasMore && !this.searching) {
-
+      if (!this.searching) {
         let dataS = this.until.seGet("DateS");
         let dataE = this.until.seGet("DateE");
         let strItemNo = this.until.seGet("strItemNo");
@@ -285,6 +284,7 @@ export default {
           this.custName !== strCustName
         ) {
           this.strPageRows = 10;
+          this.hasMore = true;
         }
 
         let param = {
@@ -308,29 +308,31 @@ export default {
         this.until.seSave("strCustName", this.custName);
 
         this.searching = true;
-        this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
-          res => {
-            if (res.success) {
-              this.searchCk = res.data;
-              this.strPageRows += 5;
-
-              if (res.data.items.length < this.strPageRows) {
-                this.hasMore = false;
+        if (this.hasMore) {
+          this.until.post("/HTWeChat/HTBills/ICStockItemList", param).then(
+            res => {
+              if (res.success) {
+                this.searchCk = res.data;
+                //每次返回的是请求的rows数量
+                if (res.data.length < this.strPageRows) {
+                  this.hasMore = false;
+                } else {
+                  this.strPageRows += 5;
+                  this.hasMore = true;
+                }
               } else {
-                hasMore = true;
+                this.searchCk = [];
+                this.hasMore = false;
               }
-            } else {
+              this.searching = false;
+            },
+            err => {
               this.searchCk = [];
+              this.searching = false;
               this.hasMore = false;
             }
-            this.searching = false;
-          },
-          err => {
-            this.searchCk = [];
-            this.searching = false;
-            this.hasMore = false;
-          }
-        );
+          );
+        }
       }
     }
   },

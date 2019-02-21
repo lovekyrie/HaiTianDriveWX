@@ -12,6 +12,11 @@ body {
 .el-upload--picture-card {
   width: 31%;
 }
+
+.el-upload-list--picture-card .el-progress {
+  left: 66%;
+  width: 80px;
+}
 .opt-one {
   background-color: #fff;
   position: relative;
@@ -116,7 +121,7 @@ body {
       position: relative;
       border: 1px solid #999;
       background-color: #fff;
-      width: 2rem;
+      width: 3rem;
       height: 1.2rem;
       background: url("./img/up.png") 50% 35% no-repeat;
       background-size: 0.41rem 0.41rem;
@@ -210,102 +215,122 @@ body {
 </style>
 
 <template>
-    <div id="container">
-        <div style="margin-bottom: .2rem;">
-            <div class="opt-one">
+  <div id="container">
+    <div style="margin-bottom: .2rem;">
+      <div class="opt-one">
+        <select class="opt-sel" @change="cSelectOp()" v-model="ZDTextBx">
+          <option value></option>
+          <option :value="item.ZDText" v-for="(item,index) in bxlb" :key="index">{{item.ZDText}}</option>
+        </select>
+        
+        <span>
+          <i>*</i>报修产品
+        </span>
 
-                <select class="opt-sel" @change="cSelectOp()" v-model="ZDTextBx">
-                    <option value=""></option>
-                    <option :value="item.ZDText" v-for="(item,index) in bxlb" :key="index">{{item.ZDText}}</option>
-                </select>
+        <!--<el-select v-model="strPro" placeholder="产品类别" @change="cSelectOp()">-->
+        <!--<el-option v-for="item in bxlb"  :value="item.ZDText" >-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <span class="opt-cnt fr">{{strPro}}</span>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xiala"></use>
+        </svg>
+      </div>
+    </div>
 
-                <span><i>*</i>报修产品</span>
+    <div>
+      <div class="opt-one border-c">
+        <span>
+          <i>*</i>设备型号:
+        </span>
+        <input type="text" v-model="strItemModel">
+        <!-- <mu-text-field v-model.number="strItemModel" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
+      </div>
+      <div class="opt-one">
+        <span>
+          <i>*</i>序列号:
+        </span>
+        <input type="text" v-model="strItemSN">
+        <!-- <mu-text-field v-model.number="strItemSN" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
+      </div>
+    </div>
 
-                <!--<el-select v-model="strPro" placeholder="产品类别" @change="cSelectOp()">-->
-                <!--<el-option v-for="item in bxlb"  :value="item.ZDText" >-->
-                <!--</el-option>-->
-                <!--</el-select>-->
+    <div class="list-tit">
+      <span>
+        <i>*</i>故障描述
+      </span>
+    </div>
 
-                <span class="opt-cnt fr">{{strPro}}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiala"></use>
-                </svg>
-            </div>
-        </div>
+    <div class="c-textarea">
+      <yd-textarea slot="right" placeholder="请输入关于设备的故障描述" maxlength="200" v-model="strMark"></yd-textarea>
+    </div>
 
-        <div>
-            <div class="opt-one border-c">
-                <span><i>*</i>设备型号:</span>
-                <input type="text" v-model="strItemModel">
-                <!-- <mu-text-field v-model.number="strItemModel" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
-            </div>
-            <div class="opt-one">
-                <span><i>*</i>序列号:</span>
-                <input type="text" v-model="strItemSN">
-                <!-- <mu-text-field v-model.number="strItemSN" multi-line :rows="3" :rows-max="6"></mu-text-field> -->
-            </div>
-        </div>
+    <div class="rq">
+      <div class="opt-img opt-one">
+        <span>
+          <i>*</i>故障图片
+        </span>
+        <el-upload
+          ref="upload"
+          class="imgUp"
+          action="/prod/upload/uploading"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <!-- list-type="picture-card"
+          :on-progress="imgUp"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+          :file-list="imgArr"-->
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <!--<svg class="icon" aria-hidden="true" @click="deleteImgUrl(index)"><use xlink:href="#icon-guanbi"></use></svg>-->
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="1111">
+        </el-dialog>
+      </div>
+    </div>
 
-        <div class="list-tit">
-            <span><i>* </i>故障描述</span>
-        </div>
+    <div class="list-tit">
+      <span>联系人</span>
+      <p></p>
+    </div>
 
-        <div class="c-textarea">
-            <yd-textarea slot="right" placeholder="请输入关于设备的故障描述" maxlength="200" v-model="strMark"></yd-textarea>
-        </div>
-
-        <div class="rq">
-            <div class="opt-img opt-one">
-                <span><i>*</i>故障图片</span>
-                <el-upload ref="upload" class="imgUp" multiple 
-                        action="/prod/upload/uploading"
-                        list-type="picture-card"
-                           :on-progress="imgUp"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove"
-                        :file-list="imgArr">
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <!--<svg class="icon" aria-hidden="true" @click="deleteImgUrl(index)"><use xlink:href="#icon-guanbi"></use></svg>-->
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="1111">
-                </el-dialog>
-            </div>
-        </div>
-
-        <div class="list-tit">
-            <span>联系人</span>
-            <p></p>
-        </div>
-
-        <div>
-            <div class="opt-input opt-one border-c">
-                <span><i>*</i>客户名称:</span>
-                <input type="text" v-model="strCust">
-            </div>
-            <div class="opt-input opt-one">
-                <span><i>*</i>联系人:</span>
-                <input type="text" v-model="strContract">
-            </div>
-            <div class="opt-input opt-one">
-                <span><i>*</i>联系电话:</span>
-                <input type="text" v-model="strMobile">
-            </div>
-            <!-- <div class="opt-input opt-one">
+    <div>
+      <div class="opt-input opt-one border-c">
+        <span>
+          <i>*</i>客户名称:
+        </span>
+        <input type="text" v-model="strCust">
+      </div>
+      <div class="opt-input opt-one">
+        <span>
+          <i>*</i>联系人:
+        </span>
+        <input type="text" v-model="strContract">
+      </div>
+      <div class="opt-input opt-one">
+        <span>
+          <i>*</i>联系电话:
+        </span>
+        <input type="text" v-model="strMobile">
+      </div>
+      <!-- <div class="opt-input opt-one">
                 <span>电话号码:</span>
                 <input type="text" v-model="strPhone">
-            </div> -->
-            <div class="opt-input opt-one">
-                <span>地址:</span>
-                <input type="text" v-model="strAddress">
-            </div>
-        </div>
-
-        <div class="g-button" @click="clientRepair">
-            <button>提交</button>
-        </div>
-        <dialogMsg v-show="isShow"></dialogMsg>
+      </div>-->
+      <div class="opt-input opt-one">
+        <span>地址:</span>
+        <input type="text" v-model="strAddress">
+      </div>
     </div>
+
+    <div class="g-button" @click="clientRepair">
+      <button>提交</button>
+    </div>
+    <dialogMsg v-show="isShow"></dialogMsg>
+  </div>
 </template>
 
 <script>
@@ -431,7 +456,7 @@ export default {
         this.str += "客户名称不能为空！\n";
       } else if (this.strContract == "") {
         this.str += "联系人不能为空！\n";
-      } else if (!this.strMobile ) {
+      } else if (!this.strMobile) {
         this.str += "联系电话不能为空！\n";
       } else if (this.imgArr.length === 0) {
         this.str += "故障图片不能为空！\n";
@@ -492,7 +517,7 @@ export default {
         this.until.loSave("cName", this.strCust);
         this.until.loSave("cLinked", this.strContract);
         // if (this.strMobile) {
-          this.until.loSave("cMobile", this.strMobile);
+        this.until.loSave("cMobile", this.strMobile);
         // } else {
         //   this.until.loSave("cPhone", this.strPhone);
         // }
