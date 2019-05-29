@@ -30,16 +30,16 @@ body {
 </style>
 
 <template>
-    <div id="container">
-        <div class="option">
-            <div v-for="(opt,index) in options" :key="index">
-                <a :href="opt.href">
-                    <img :src="opt.img">
-                    <p>{{opt.title}}</p>
-                </a>
-            </div>
-        </div>
+  <div id="container">
+    <div class="option">
+      <div v-for="(opt,index) in options" :key="index">
+        <a :href="opt.href">
+          <img :src="opt.img">
+          <p>{{opt.title}}</p>
+        </a>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -55,7 +55,7 @@ import log9 from "./img/log_9.png";
 import log10 from "./img/log_10.png";
 import log11 from "./img/log_11.png";
 import log12 from "./img/log_12.png";
-import log13 from './img/log_13.png';
+import log13 from "./img/log_13.png";
 
 export default {
   data() {
@@ -72,7 +72,7 @@ export default {
         { img: log9, title: "公众号二维码", href: "./twoCode.html" },
         { img: log11, title: "发货信息", href: "./deliveryInfo.html" },
         { img: log12, title: "报价信息", href: "./quoteInfo.html" },
-        { img: log13, title: "车辆去向", href: "./carLendHistory.html" },
+        { img: log13, title: "车辆去向", href: "./carLendHistory.html" }
       ]
     };
   },

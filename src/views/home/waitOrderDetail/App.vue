@@ -1063,7 +1063,7 @@ export default {
     rules() {
       if (this.ZDTreatment === "") {
         this.str += "处理措施不能为空\n";
-      } else if (!this.waitOrderXq[0].故障描述) {
+      } else if (!this.repairContent) {
         this.str += "故障描述不能为空";
       } else if (this.imgArr.length <= 0) {
         this.str += "故障图片必须上传1张\n";
@@ -1075,7 +1075,22 @@ export default {
         this.str += "保修情况不能为空";
       } else if (!this.waitOrderXq[0].派工日期) {
         this.str += "派工日期不能为空";
-      } else if (this.ZDTextRw === "故障维修") {
+      } else if (!this.waitOrderXq[0].派工人员) {
+        this.str += "派工人员不能为空";
+      } else if (!this.MachineModel && !this.MachineModelInput) {
+        this.str += "设备型号不能为空";
+      } else if (!this.MachineNO && !this.MachineNOInput) {
+        this.str += "物料号不能为空";
+      } else if (!this.ProductNo) {
+        this.str += "序列号不能为空";
+      } else if (!this.MakeDate) {
+        this.str += "出厂日期不能为空";
+      } else if (!this.currentTime) {
+        this.str += "反馈时间不能为空";
+      }
+
+      /**当任务类型为故障维修的时候，增加以下选项的必填判断 2019-5-29 dyp repiar bug */
+      if (this.ZDTextRw === "故障维修") {
         if (!this.ZDTextSf) {
           this.str += "是否重要故障不能为空";
         } else if (!this.ZDTextCd) {
@@ -1089,18 +1104,6 @@ export default {
         } else if (!this.ZDTextGzfl) {
           this.str += "故障分类不能为空";
         }
-      } else if (!this.waitOrderXq[0].派工人员) {
-        this.str += "派工人员不能为空";
-      } else if (!this.MachineModel && !this.MachineModelInput) {
-        this.str += "设备型号不能为空";
-      } else if (!this.MachineNO && !this.MachineNOInput) {
-        this.str += "物料号不能为空";
-      } else if (!this.ProductNo && !this.Equipment) {
-        this.str += "序列号不能为空";
-      } else if (!this.MakeDate) {
-        this.str += "出厂日期不能为空";
-      } else if (!this.currentTime) {
-        this.str += "反馈时间不能为空";
       }
 
       if (!this.str) {
@@ -1131,11 +1134,15 @@ export default {
           MachineNOCharge: this.MachineNOCharge, //替代品序列号
           YearOfUse: this.UserOfYear, //使用年限
           RepairImgs: this.newImgArr.join(","),
-          ProductNo: this.ProductNo, //序列号
-          MachineModel: this.MachineModel || this.MachineModelInput, //产品型号
-          RepairYear: this.RepairYear, //保修年限
-          MakeDate: this.MakeDate, //出厂日期
-          MachineNO: this.MachineNO || this.MachineNOInput, //物料号
+          ProductNo: this.ProductNo.replace(/^\n|\n$/gi, ""), //序列号
+          MachineModel:
+            this.MachineModel.replace(/^\n|\n$/gi, "") ||
+            this.MachineModelInput.replace(/^\n|\n$/gi, ""), //产品型号
+          RepairYear: this.RepairYear.replace(/^\n|\n$/gi, ""), //保修年限
+          MakeDate: this.MakeDate.replace(/^\n|\n$/gi, ""), //出厂日期
+          MachineNO:
+            this.MachineNO.replace(/^\n|\n$/gi, "") ||
+            this.MachineNOInput.replace(/^\n|\n$/gi, ""), //物料号
           BrokenCode: this.ZDTextCd, //故障代码
           TaskType: this.ZDTextRw, //任务类型
           ReceiveUser: this.receiveUser //接单人
@@ -1155,6 +1162,8 @@ export default {
               alert("预约维修反馈提交成功！");
               this.deleteWarningKey();
               window.history.back();
+            } else {
+              alert(res.msg);
             }
           },
           err => {
