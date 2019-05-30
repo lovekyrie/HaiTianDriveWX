@@ -626,7 +626,7 @@ body {
         <div class="serial-wrap">
           <div>
             <span>输入序列号：</span>
-            <input type="text" v-model="Equipment" @change="getProductList">
+            <input type="text" v-model="EquipmentInfo" @change="getProductList">
           </div>
           <div>
             <select v-model="Equipment" @change="selectOption($event)">
@@ -722,8 +722,12 @@ body {
       </div>
     </div>
 
-    <div class="g-button" @click="clientRepairFeedback">
-      <button>确定</button>
+    <div class="g-button">
+      <button
+        @click.stop="clientRepairFeedback"
+        :disabled="btnClick"
+        :class="{disable:btnClick===true}"
+      >确定</button>
     </div>
   </div>
 </template>
@@ -775,6 +779,7 @@ export default {
       MachineNOCharge: "",
       newImgArr: [],
       productList: [],
+      EquipmentInfo: "",
       Equipment: "",
       product: [],
       MachineModel: "",
@@ -791,7 +796,8 @@ export default {
       region: "",
       receiveUser: "",
       value9: "",
-      datetime8: ""
+      datetime8: "",
+      btnClick: false
     };
   },
   computed: {
@@ -1017,7 +1023,7 @@ export default {
     },
     getProductList() {
       let param = {
-        prefixText: this.Equipment
+        prefixText: this.EquipmentInfo
       };
 
       this.until.post("/HTWeChat/HTBills/GetMachineCompletionList", param).then(
@@ -1058,6 +1064,7 @@ export default {
         : this.UserOfYear +
           "\n" +
           (parseInt(time.year) - parseInt(makeYear)).toString();
+      this.EquipmentInfo = "";
       this.Equipment = "";
     },
     rules() {
@@ -1081,7 +1088,7 @@ export default {
         this.str += "设备型号不能为空";
       } else if (!this.MachineNO && !this.MachineNOInput) {
         this.str += "物料号不能为空";
-      } else if (!this.ProductNo) {
+      } else if (!this.ProductNo && !this.EquipmentInfo) {
         this.str += "序列号不能为空";
       } else if (!this.MakeDate) {
         this.str += "出厂日期不能为空";
@@ -1115,6 +1122,7 @@ export default {
 
     clientRepairFeedback() {
       this.str = "";
+      this.btnClick = true;
       //this.sRwdh = getParamer("strGDNO");
 
       if (this.rules()) {
@@ -1134,7 +1142,9 @@ export default {
           MachineNOCharge: this.MachineNOCharge, //替代品序列号
           YearOfUse: this.UserOfYear, //使用年限
           RepairImgs: this.newImgArr.join(","),
-          ProductNo: this.ProductNo.replace(/^\n|\n$/gi, ""), //序列号
+          ProductNo:
+            this.ProductNo.replace(/^\n|\n$/gi, "") ||
+            this.EquipmentInfo.replace(/^\n|\n$/gi, ""), //序列号
           MachineModel:
             this.MachineModel.replace(/^\n|\n$/gi, "") ||
             this.MachineModelInput.replace(/^\n|\n$/gi, ""), //产品型号
