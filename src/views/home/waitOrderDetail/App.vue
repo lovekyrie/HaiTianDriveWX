@@ -926,6 +926,28 @@ export default {
           this.ZDTextRw = this.waitOrderXq[0].故障类型;
           this.ZDTextFD = this.waitOrderXq[0].所属事业部;
           this.ZDTextCt = this.waitOrderXq[0].产品分类;
+          if (!this.waitOrderXq[0].fistCommit) {
+            //赋值需要带过来的字段
+            this.repairContent = this.item.repairBackObj.RepairContent;
+            this.ZDTextSf = this.item.repairBackObj.Malfunction;
+            this.ZDTextCd = this.item.repairBackObj.BrokenCode;
+            this.ZDTextWx = this.item.repairBackObj.Maintenance;
+            this.ZDTextBx = this.item.repairBackObj.Warranty;
+            this.ZDTextTq = this.item.repairBackObj.IsEarlyDelivery
+              ? "是"
+              : "否";
+            this.ZDTextMf = this.item.repairBackObj.IsFreeClaim ? "是" : "否";
+            this.ZDTextGz = this.item.repairBackObj.BrokenType;
+            this.ZDTextGzfl = this.item.repairBackObj.FaultType;
+            this.ProductNo = this.item.repairBackObj.ProductNo;
+            this.MachineModel = this.item.repairBackObj.MachineModel;
+            this.MachineNO = this.item.repairBackObj.MachineNO;
+            this.MachineNOCharge = this.item.repairBackObj.MachineNOCharge;
+            this.UserOfYear = this.item.repairBackObj.YearOfUse;
+            this.MakeDate = this.item.repairBackObj.MakeDate;
+            this.RepairYear = this.item.repairBackObj.RepairYear;
+            this.ZDTreatment = this.item.repairBackObj.Treatment;
+          }
         })
         .then(() => {
           return new Promise((resolve, reject) => {
@@ -1116,6 +1138,8 @@ export default {
       if (!this.str) {
         return true;
       } else {
+        //当有字段未填写时，重新填写后保证能点
+        this.btnClick = false;
         return false;
       }
     },
