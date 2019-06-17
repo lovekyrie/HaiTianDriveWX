@@ -19,7 +19,7 @@ import 'assets/js/wconfig.js';
 import './iconfont'  //字体库
 import './wconfig.js'
 import {Query} from 'assets/js/query'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 
 // import 'assets/js/Ios';
 // import 'assets/js/WebViewJavascriptBridge';
@@ -46,7 +46,7 @@ export default{
     Vue.use(confirm);
     Vue.use(loading);
     Vue.prototype.Query = Query;
-    Vue.prototype.Vconsole = new Vconsole()
+    // Vue.prototype.Vconsole = new Vconsole()
     Vue.component(DateTime.name, DateTime);
     Vue.component(TimeLine.name, TimeLine);
     Vue.component(TimeLineItem.name, TimeLineItem);

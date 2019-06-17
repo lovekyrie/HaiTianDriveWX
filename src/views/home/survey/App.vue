@@ -777,7 +777,7 @@ export default {
         return true;
       }
     },
-    getSati() {
+    async getSati() {
       if (this.rules()) {
         let param = {
           jobNumber: this.sRwdh,
@@ -828,23 +828,42 @@ export default {
           category: this.quality
         };
 
-        this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(
-          res => {
-            if (res.status == "200") {
-              console.log("成功了");
-              alert("客户满意度调查提交成功！");
-              this.until.back();
-            } else {
-              console.log(res.status);
-            }
-          },
-          err => {}
-        );
+        await this.sumbitSurvey(param);
+        //提交.net接口
+        await this.changeStatus();
       } else {
         alert(this.requireMsg);
       }
     },
+    async sumbitSurvey(param) {
+      this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(
+        res => {
+          if (res.status == "200") {
+            alert("客户满意度调查提交成功！");
+            this.until.back();
+          } else {
+            console.log(res.status);
+          }
+        },
+        err => {}
+      );
+    },
+    async changeStatus() {
+      let param = {
+        strGDNO: this.sRwdh
+      };
 
+      this.until
+        .post("/HTWeChat/HTBills/changeWorkOrderStatisifyStatus", param)
+        .then(
+          res => {
+            if (res.success) {
+              console.log("改变400工单状态成功");
+            }
+          },
+          err => {}
+        );
+    },
     getCustomerInfo() {
       var strGDNO = this.sRwdh;
 
