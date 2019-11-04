@@ -269,7 +269,7 @@ body {
         </span>
         <span class="opt-cnt f-c fr">{{ZDTextRw}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -283,7 +283,7 @@ body {
         </span>
         <span class="opt-cnt f-c fr">{{item.信息来源}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -293,7 +293,7 @@ body {
           客户名称
         </span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.客户名称" disabled>
+          <input type="text" v-model="item.客户名称" disabled />
         </span>
       </div>
 
@@ -303,7 +303,7 @@ body {
           联系人
         </span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.联系人" disabled>
+          <input type="text" v-model="item.联系人" disabled />
         </span>
       </div>
 
@@ -313,7 +313,7 @@ body {
           客户地址
         </span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.地址" disabled>
+          <input type="text" v-model="item.地址" disabled />
         </span>
       </div>
 
@@ -328,35 +328,35 @@ body {
         </span>
         <span class="opt-cnt f-c fr">{{item.性别}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
       <div class="opt-one">
         <span>手机</span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.手机" disabled>
+          <input type="text" v-model="item.手机" disabled />
         </span>
       </div>
 
       <div class="opt-one">
         <span>电话</span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.电话" disabled>
+          <input type="text" v-model="item.电话" disabled />
         </span>
       </div>
 
       <div class="opt-one">
         <span>传真</span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.传真" disabled>
+          <input type="text" v-model="item.传真" disabled />
         </span>
       </div>
 
       <div class="opt-one">
         <span>邮箱</span>
         <span class="opt-cnt f-c fr">
-          <input type="text" v-model="item.邮箱" disabled>
+          <input type="text" v-model="item.邮箱" disabled />
         </span>
       </div>
 
@@ -391,7 +391,7 @@ body {
         </span>
         <span class="opt-cnt f-c fr">{{ZDTextFD}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -405,7 +405,7 @@ body {
         </span>
         <span class="opt-cnt f-c fr">{{ZDTextCt}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -433,9 +433,9 @@ body {
         </span>
         <div class="imgshow">
           <span class="upimg" v-for="(img,index) in imgArr" :key="index">
-            <img :src="img">
+            <img :src="img" />
             <svg class="icon" aria-hidden="true" @click="deleteImgUrl(index)">
-              <use xlink:href="#icon-guanbi"></use>
+              <use xlink:href="#icon-guanbi" />
             </svg>
           </span>
           <span class="upimg c-m">
@@ -446,7 +446,7 @@ body {
               ref="brokenFile"
               @change="uploadImg"
               name="{name}"
-            >
+            />
           </span>
         </div>
       </div>
@@ -462,7 +462,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextSf}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -477,7 +477,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextCd}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -495,7 +495,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextWx}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -509,7 +509,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextBx}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -524,7 +524,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextTq}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -539,7 +539,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextMf}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -564,7 +564,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextGz}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -579,7 +579,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextGzfl}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
 
@@ -589,7 +589,7 @@ body {
           所属区域
         </span>
         <span class="opt-cnt fr">
-          <input type="text" v-model="region">
+          <input type="text" v-model="region" />
           {{item.所属区域}}
         </span>
       </div>
@@ -599,7 +599,7 @@ body {
           派工人员
         </span>
         <span class="opt-cnt fr">
-          <input type="text" v-model="item.派工人员">
+          <input type="text" v-model="item.派工人员" />
         </span>
       </div>
 
@@ -613,7 +613,7 @@ body {
         </span>
         <span class="opt-cnt fr">{{ZDTextPg}}</span>
         <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiala"></use>
+          <use xlink:href="#icon-xiala" />
         </svg>
       </div>
     </div>
@@ -625,8 +625,8 @@ body {
         </span>
         <div class="serial-wrap">
           <div>
-            <span>输入序列号：</span>
-            <input type="text" v-model="EquipmentInfo" @change="getProductList">
+            <span>输入序列号：(仅查询用，不保存)</span>
+            <input type="text" v-model="EquipmentInfo" @change="getProductList" />
           </div>
           <div>
             <select v-model="Equipment" @change="selectOption($event)">
@@ -638,7 +638,7 @@ body {
               >{{item.text}}</option>
             </select>
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-xiala"></use>
+              <use xlink:href="#icon-xiala" />
             </svg>
           </div>
           <mu-text-field v-model="ProductNo" multi-line :rows="3" :rows-max="6"></mu-text-field>
@@ -654,7 +654,7 @@ body {
           设备型号
         </span>
         <div class="opt-wrap">
-          <input class="input-short" type="text" v-model="MachineModelInput">
+          <input class="input-short" type="text" v-model="MachineModelInput" />
           <mu-text-field v-model="MachineModel" multi-line :rows="3" :rows-max="6"></mu-text-field>
         </div>
       </div>
@@ -665,7 +665,7 @@ body {
           物料号
         </span>
         <div class="opt-wrap">
-          <input class="input-short" type="text" v-model="MachineNOInput">
+          <input class="input-short" type="text" v-model="MachineNOInput" />
           <mu-text-field v-model="MachineNO" multi-line :rows="3" :rows-max="6"></mu-text-field>
         </div>
       </div>
@@ -673,14 +673,14 @@ body {
       <div class="opt-one">
         <span>替代品序列号</span>
         <span class="opt-cnt fr">
-          <input type="text" v-model="MachineNOCharge">
+          <input type="text" v-model="MachineNOCharge" />
         </span>
       </div>
 
       <div class="opt-one opt-double">
         <span>使用年限</span>
         <div class="opt-wrap">
-          <input type="text" disabled="disabled">
+          <input type="text" disabled="disabled" />
           <mu-text-field v-model="UserOfYear" multi-line :rows="3" :rows-max="6"></mu-text-field>
         </div>
       </div>
@@ -693,14 +693,14 @@ body {
         <div class="opt-wrap">
           <button @click="open">选择日期</button>
           <yd-datetime type="date" ref="datetime" v-model="datetime8" :callback="pushMakeDate">选择日期</yd-datetime>
-          <mu-text-field v-model="MakeDate" multi-line :rows="3" :rows-max="6"></mu-text-field>
+          <mu-text-field v-model="MakeDate" multi-line :rows="3" :rows-max="6" :disabled="true"></mu-text-field>
         </div>
       </div>
 
       <div class="opt-one">
         <span>保修年限</span>
         <span class="opt-cnt fr">
-          <input type="text" v-model="RepairYear">
+          <input type="text" v-model="RepairYear" />
         </span>
       </div>
     </div>
@@ -839,11 +839,10 @@ export default {
   methods: {
     pushMakeDate() {
       //第一次是2009-01-01的时候
-      if (
-        this.datetime8 &&
-        (this.MakeDate || this.datetime8 !== "2009-01-01")
-      ) {
-        this.MakeDate += "\n" + this.datetime8.replace(/-/g, ".");
+      if (this.datetime8 && this.MakeDate && this.datetime8 !== "2009-01-01") {
+        this.MakeDate += "\n" + this.datetime8;
+      } else if (this.datetime8 !== "2009-01-01") {
+        this.MakeDate = this.datetime8;
       }
       this.datetime8 = "";
     },
@@ -1073,8 +1072,10 @@ export default {
         ? this.product[0]["ProductMateID"]
         : this.MachineNO + "\n" + this.product[0]["ProductMateID"];
       this.MakeDate = !this.MakeDate
-        ? this.product[0]["DeliverDate"]
-        : this.MakeDate + "\n" + this.product[0]["DeliverDate"];
+        ? this.product[0]["DeliverDate"].replace(/\D/g, "-")
+        : this.MakeDate +
+          "\n" +
+          this.product[0]["DeliverDate"].replace(/\D/g, "-");
       this.MachineModel = !this.MachineModel
         ? this.product[0]["ProductModel"]
         : this.MachineModel + "\n" + this.product[0]["ProductModel"];
@@ -1132,6 +1133,22 @@ export default {
           this.str += "故障类型不能为空";
         } else if (!this.ZDTextGzfl) {
           this.str += "故障分类不能为空";
+        }
+      }
+
+      //判断数量
+      const length1 = this.ProductNo && this.ProductNo.split("\n");
+      const length2 = this.MachineModel && this.MachineModel.split("\n");
+      const length3 = this.MachineNO && this.MachineNO.split("\n");
+
+      if (length1 !== length2 || length1 !== length3 || length2 !== length3) {
+        const minVal = Math.min(length1, length2, length3);
+        if (length1 === minVal) {
+          this.str += "序列号与其他设备信息的数量不相等，请继续输入";
+        } else if (length2 === minVal) {
+          this.str += "设备型号与其他设备信息的数量不相等，请继续输入";
+        } else if (length3 === minVal) {
+          this.str += "物料号与其他设备信息的数量不相等，请继续输入";
         }
       }
 

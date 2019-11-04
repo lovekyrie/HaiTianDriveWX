@@ -828,25 +828,32 @@ export default {
           category: this.quality
         };
 
-        await this.sumbitSurvey(param);
+        let resultMsg = await this.sumbitSurvey(param);
         //提交.net接口
-        await this.changeStatus();
+        if (resultMsg === "OK") {
+          await this.changeStatus();
+          //返回我的工单页面
+          alert("客户满意度调查提交成功！");
+          this.until.back();
+        }
       } else {
         alert(this.requireMsg);
       }
     },
     async sumbitSurvey(param) {
-      this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(
-        res => {
-          if (res.status == "200") {
-            alert("客户满意度调查提交成功！");
-            this.until.back();
-          } else {
-            console.log(res.status);
-          }
-        },
-        err => {}
-      );
+      return new Promise(resolve => {
+        this.until.postData("/prod/satis/wdit", JSON.stringify(param)).then(
+          res => {
+            if (res.status == "200") {
+              resolve("OK");
+            } else {
+              alert(res.msg);
+              resolve("error");
+            }
+          },
+          err => {}
+        );
+      });
     },
     async changeStatus() {
       let param = {

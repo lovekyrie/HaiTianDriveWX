@@ -34,7 +34,7 @@ body {
     <div class="option">
       <div v-for="(opt,index) in options" :key="index">
         <a :href="opt.href">
-          <img :src="opt.img">
+          <img :src="opt.img" />
           <p>{{opt.title}}</p>
         </a>
       </div>
@@ -99,6 +99,11 @@ export default {
         console.log(paramerValue);
         code = paramerValue;
       }
+    } else {
+      this.$hero.msg.show({ text: "您还未登录，请先登录" });
+      setTimeout(() => {
+        this.until.href("../system/login.html");
+      }, 1500);
     }
     console.log("获取到的code:" + code);
     let param = {
